@@ -8,21 +8,21 @@ const slides = [
     title: "We will provide the best Products World Wide.",
     description: "We are the best guarenteed company to serve you. We are dedicated to help you any time.",
     buttonText: "Shop Now",
-    buttonLink: "/gallery",
+    buttonLink: "/shop",
   },
   {
     image: "/images/4.jpeg",
     title: "We will provide the best Products World Wide.",
     description: "We are the best guarenteed company to serve you. We are dedicated to help you any time.",
     buttonText: "Shop Now",
-    buttonLink: "/about",
+    buttonLink: "/shop",
   },
   {
     image: "/images/1.jpeg",
     title: "We will provide the best Products World Wide.",
     description: "We are the best guarenteed company to serve you. We are dedicated to help you any time.",
     buttonText: "Shop Now",
-    buttonLink: "/contact",
+    buttonLink: "/shop",
   },
 ];
 
