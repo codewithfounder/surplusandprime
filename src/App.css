@@ -1,0 +1,11 @@
+.side-navigation {
+    transform: translateX(-100%);
+    transition: 0.4s;
+}
+
+.side-navigation.open {
+    transform: translateX(0);
+}
+.navigation-box li .sub-menu{
+    display: block;
+}

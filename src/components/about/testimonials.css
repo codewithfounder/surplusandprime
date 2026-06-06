@@ -1,0 +1,166 @@
+.tsm-testimonials {
+    padding: 60px 0;
+    background: #f8f9fc;
+    overflow: hidden;
+}
+
+.tsm-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 15px;
+}
+
+.tsm-sec-title {
+    margin-bottom: 40px;
+}
+
+.tsm-sec-title h3 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.tsm-sec-title h3 span {
+    color: #21aa47;
+}
+
+.tsm-sec-title p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #666;
+}
+
+.tsm-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px 25px;
+    margin: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: 0.3s ease;
+    height: 100%;
+}
+
+.tsm-card:hover {
+    transform: translateY(-5px);
+}
+
+.tsm-quote-img {
+    width: 45px;
+    margin-bottom: 20px;
+}
+
+.tsm-card h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+.tsm-card p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.tsm-name-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.tsm-img-box img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.tsm-text-box h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #111;
+}
+
+.tsm-text-box span {
+    font-size: 14px;
+    color: #888;
+}
+
+/* slick custom */
+
+.tsm-testimonials .slick-slide {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.tsm-testimonials .slick-list {
+    margin: 0 -10px;
+}
+
+.tsm-testimonials .slick-track {
+    display: flex !important;
+}
+
+.tsm-testimonials .slick-slide>div {
+    height: 100%;
+}
+
+.tsm-testimonials .slick-dots li button:before {
+    font-size: 12px;
+    color: #21aa47;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+    .tsm-testimonials {
+        padding: 40px 0;
+    }
+
+    .tsm-sec-title h3 {
+        font-size: 28px;
+    }
+
+    .tsm-sec-title p {
+        font-size: 14px;
+    }
+
+    .tsm-card {
+        padding: 22px 18px;
+        border-radius: 16px;
+    }
+
+    .tsm-card h3 {
+        font-size: 18px;
+    }
+
+    .tsm-card p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .tsm-img-box img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .tsm-text-box h4 {
+        font-size: 16px;
+    }
+
+    .tsm-text-box span {
+        font-size: 13px;
+    }
+}
+
+.about {}
+
+@media (max-width: 480px) {
+    .tsm-sec-title h3 {
+        font-size: 24px;
+    }
+
+    .tsm-card {
+        padding: 20px 15px;
+    }
+}

@@ -1,0 +1,127 @@
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+.category-slider {
+  background: #f5f5f5;
+  padding: 60px 0;
+}
+
+.category-card {
+  padding: 5px;
+}
+
+/* Card */
+.card {
+  position: relative;
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Image */
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* Zoom effect */
+.card:hover img {
+  transform: scale(1.1);
+}
+
+/* Bottom green label */
+.overlay-bottom {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  background: #0473ea;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  z-index: 2;
+}
+
+.overlay-bottom h3 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.slick-list {
+  margin: 0 -10px;
+}
+
+/* FULL hover overlay */
+.overlay-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #111; /* dark overlay */
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  padding: 20px;
+
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 3;
+}
+
+/* SHOW ON HOVER */
+.card:hover .overlay-hover {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Hide bottom label on hover */
+.card:hover .overlay-bottom {
+  opacity: 0;
+}
+
+/* Text styles */
+.overlay-hover h3 {
+  color: #28a745;
+  margin-bottom: 10px;
+}
+
+.overlay-hover p {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* @media (max-width: 576px) {
+  .category-card {
+    padding: 0 5px;
+  }
+
+  .card {
+    height: 280px;
+  }
+} */
+/* Force single slide on small screens */
+@media (max-width: 768px) {
+  .category-slider .slick-slide {
+    width: 100% !important;
+  }
+
+  .category-slider .slick-track {
+    display: flex !important;
+  }
+
+  .category-card {
+    padding: 0 5px;
+  }
+}

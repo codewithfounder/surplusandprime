@@ -1,0 +1,47 @@
+.subcategory-list {
+  /* margin-left: 15px; */
+  margin-top: 2px;
+}
+
+/* .subcategory-list li {
+  list-style: none;
+} */
+
+.subcategory-list li a {
+  font-size: 14px;
+  color: #666;
+  display: block;
+  padding: 4px 0;
+}
+
+.single-sidebar {
+  width: auto;
+}
+
+@media (min-width: 992px) {
+  .single-sidebar {
+    width: 27rem;
+  }
+}
+
+.subcategory-list li a:hover {
+  color: #21aa47;
+}
+
+.category-title {
+  font-weight: 600;
+  padding: 8px 0;
+}
+
+.subcategory-list {
+  padding-left: 3rem;
+}
+
+.subcategory-list a {
+  display: block;
+  color: #666;
+}
+
+.subcategory-list a:hover {
+  color: #21aa47;
+}
