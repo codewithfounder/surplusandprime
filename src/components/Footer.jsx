@@ -34,8 +34,8 @@ function Footer() {
             <div className="col-md-3 col-sm-6 col-xs-12">
               <div className="footer-widget about-widget">
 
-                <a href="index.html" className="footer-logo-content" style={{display: 'flex', justifyContent: 'center', alignItems: "center"}}>
-                  <img src="images/surplus.png" alt="Logo" style={{width: '31rem'}}/>
+                <a href="index.html" className="footer-logo-content" style={{ display: 'flex', justifyContent: 'center', alignItems: "center" }}>
+                  <img src="/images/surplus.png" alt="Logo" style={{ width: '31rem' }} />
                 </a>
 
                 <h3>About us</h3>
@@ -125,7 +125,7 @@ function Footer() {
 
           <div className="left-text pull-left col-xs-12">
             <p className="text-center">© Copyright Surplus and Prime WorldWide FZ LLC.
-<span style={{color: '#21aa47'}}>GREENER TOMORROW</span> 2026. All right reserved.</p>
+              <span style={{ color: '#21aa47' }}>GREENER TOMORROW</span> 2026. All right reserved.</p>
           </div>
 
           {/* <div className="right-text pull-right">
