@@ -153,3 +153,19 @@
 /* .product-box:hover .product-img {
   transform: scale(1.05);
 } */
+
+
+.selected-image-wrapper {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.zoom-image {
+  transition: transform 0.2s ease;
+  cursor: zoom-in;
+}
+
+.zoom-image:hover {
+  transform: scale(2);
+  /* adjust zoom level */
+}

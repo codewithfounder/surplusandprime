@@ -187,17 +187,29 @@ function Details({ productId }) {
                     {/* LEFT IMAGE */}
                     <div className="col-md-5">
 
-                        <img
-                            src={selectedImage}
-                            alt=""
-                            style={{
-                                width: "100%",
-                                height: "420px",
-                                objectFit: "cover",
-                                borderRadius: "8px",
-                                marginBottom: "15px"
-                            }}
-                        />
+                        <div className="selected-image-wrapper">
+                            <img
+                                src={selectedImage}
+                                alt=""
+                                className="selected-image zoom-image"
+                                onMouseMove={(e) => {
+                                    const { left, top, width, height } =
+                                        e.currentTarget.getBoundingClientRect();
+
+                                    const x = ((e.clientX - left) / width) * 100;
+                                    const y = ((e.clientY - top) / height) * 100;
+
+                                    e.currentTarget.style.transformOrigin = `${x}% ${y}%`;
+                                }}
+                                style={{
+                                    width: "100%",
+                                    height: "420px",
+                                    objectFit: "cover",
+                                    borderRadius: "8px",
+                                    marginBottom: "15px"
+                                }}
+                            />
+                        </div>
 
                         <div className="d-flex gap-2 flex-wrap">
 
@@ -260,12 +272,12 @@ function Details({ productId }) {
                                 </span>
                             </div>
 
-                            <div className="detail-row">
+                            {/* <div className="detail-row">
                                 <span className="label">Seller</span>
                                 <span className="value">
                                     : Surplusandprime
                                 </span>
-                            </div>
+                            </div> */}
 
                             <div className="detail-row">
                                 <span className="label">Date</span>
