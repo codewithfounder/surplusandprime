@@ -72,7 +72,7 @@ function Footer() {
                 <ul className="links-list">
                   {links.map((link, index) => (
                     <li key={index}>
-                      <Link to={`/${link.path}`}>
+                      <Link to={`${link.path}`}>
                         {link.name}
                       </Link>
                     </li>
