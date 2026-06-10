@@ -1,27 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import BASE_URL from "../config/api";
 
 const links = [
-  "Home",
-  "About Us",
-  "Shop",
-  "Contact Us",
-  "Login",
-  "Sign Up"
-];
-
-const category = [
-  "Chemical & Petrochemicals",
-  "Commercial Equipment",
-  "Computer & Peripherals",
-  "Electrical Utilities & Downstream",
-  "Marine",
-  "Oil & Gas",
-  "Transportation / Vehicles/Mobile Assets",
-  "Heavy Equipment",
-  "Building Materials"
+  { name: "Home", path: "/" },
+  { name: "About Us", path: "/about" },
+  { name: "Shop", path: "/shop" },
+  { name: "Contact Us", path: "/contact" },
+  { name: "Login", path: "/login" },
+  { name: "Sign Up", path: "/register" }
 ];
 
 function Footer() {
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/category/view`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          setCategories(data.data.slice(0, 6));
+        }
+      })
+      .catch((err) => console.error("API Error:", err));
+  }, []);
+
+  const formatCategoryName = (name) => {
+    const formatted =
+      name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+
+    return formatted.length > 21
+      ? `${formatted.slice(0, 21)}...`
+      : formatted;
+  };
+
   return (
     <footer className="site-footer fixed-footer">
 
@@ -59,7 +71,9 @@ function Footer() {
                 <ul className="links-list">
                   {links.map((link, index) => (
                     <li key={index}>
-                      <a href="#">{link}</a>
+                      <a href={link.path}>
+                        {link.name}
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -76,11 +90,17 @@ function Footer() {
                 </div>
 
                 <ul className="links-list">
-                  {category.map((category, index) => (
-                    <li key={index}>
-                      <a href="#">{category}</a>
-                    </li>
-                  ))}
+                  <ul className="links-list">
+                    <ul className="links-list">
+                      {categories.map((category) => (
+                        <li key={category.id}>
+                          <a href={`/category/${category.id}`}>
+                            {formatCategoryName(category.Title)}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </ul>
                 </ul>
 
               </div>
