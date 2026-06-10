@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BASE_URL from "../config/api";
+import { Link } from "react-router-dom";
 
 const links = [
   { name: "Home", path: "/" },
@@ -46,9 +47,9 @@ function Footer() {
             <div className="col-md-3 col-sm-6 col-xs-12">
               <div className="footer-widget about-widget">
 
-                <a href="index.html" className="footer-logo-content" style={{ display: 'flex', justifyContent: 'center', alignItems: "center" }}>
+                <Link to="/" className="footer-logo-content" style={{ display: 'flex', justifyContent: 'center', alignItems: "center" }}>
                   <img src="/images/surplus.png" alt="Logo" style={{ width: '31rem' }} />
-                </a>
+                </Link>
 
                 <h3>About us</h3>
 
@@ -71,9 +72,9 @@ function Footer() {
                 <ul className="links-list">
                   {links.map((link, index) => (
                     <li key={index}>
-                      <a href={link.path}>
+                      <Link to={`/${link.path}`}>
                         {link.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -94,9 +95,9 @@ function Footer() {
                     <ul className="links-list">
                       {categories.map((category) => (
                         <li key={category.id}>
-                          <a href={`/category/${category.id}`}>
+                          <Link to={`/category/${category.id}`}>
                             {formatCategoryName(category.Title)}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
