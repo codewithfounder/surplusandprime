@@ -7,6 +7,7 @@ function Details({ productId }) {
     const navigate = useNavigate();
     const productimg = `${IMG_URL}/product/`;
     const [latestProducts, setLatestProducts] = useState([]);
+    const [showImageModal, setShowImageModal] = useState(false);
 
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState("");
@@ -192,6 +193,7 @@ function Details({ productId }) {
                                 src={selectedImage}
                                 alt=""
                                 className="selected-image zoom-image"
+                                onClick={() => setShowImageModal(true)}
                                 onMouseMove={(e) => {
                                     const { left, top, width, height } =
                                         e.currentTarget.getBoundingClientRect();
@@ -206,7 +208,8 @@ function Details({ productId }) {
                                     height: "420px",
                                     objectFit: "cover",
                                     borderRadius: "8px",
-                                    marginBottom: "15px"
+                                    marginBottom: "15px",
+                                    cursor: "zoom-in"
                                 }}
                             />
                         </div>
@@ -271,13 +274,6 @@ function Details({ productId }) {
                                     : {product.product_category_title}
                                 </span>
                             </div>
-
-                            {/* <div className="detail-row">
-                                <span className="label">Seller</span>
-                                <span className="value">
-                                    : Surplusandprime
-                                </span>
-                            </div> */}
 
                             <div className="detail-row">
                                 <span className="label">Date</span>
@@ -531,7 +527,41 @@ function Details({ productId }) {
                     color: white;
                 }
 
+                .image-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.85);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 9999;
+                    cursor: pointer;
+                }
+
+                .modal-image {
+                    max-width: 90%;
+                    max-height: 90%;
+                    border-radius: 10px;
+                    object-fit: contain;
+                }
+
             `}</style>
+
+            {showImageModal && (
+                <div
+                    className="image-modal"
+                    onClick={() => setShowImageModal(false)}
+                >
+                    <img
+                        src={selectedImage}
+                        alt=""
+                        className="modal-image"
+                    />
+                </div>
+            )}
 
         </section>
     );

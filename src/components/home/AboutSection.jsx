@@ -22,9 +22,7 @@ function AboutSection() {
                         </div>
                         <div className="col-md-5">
                             <div className="video-box">
-                                <img src="images/15.png" alt="Awesome Image" />
-                                {/* <a href="//www.youtube.com/watch?v=tVwWF-amqV4" className="video-popup"><i
-                                    className="industrio-icon-play-button hvr-pulse"></i></a> */}
+                                <img src="images/16.png" alt="Awesome Image" />
                             </div>
                         </div>
                     </div>
