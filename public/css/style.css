@@ -5149,11 +5149,13 @@ footer.site-footer .bottom-footer p {
 }
 
 .service-style-four .row [class*=col-]:nth-child(2) .single-service-style-four .img-box .box .content h3 span {
-  color: #31DAF9;
+  /* color: #31DAF9; */
+  color: #21aa47;
 }
 
 .service-style-four .row [class*=col-]:nth-child(3) .single-service-style-four .img-box .box .content h3 span {
-  color: #B1EA04;
+  /* color: #B1EA04; */
+  color: #21aa47;
 }
 
 .service-style-four.about-page {

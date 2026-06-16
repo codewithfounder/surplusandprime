@@ -3,8 +3,8 @@ import React from "react";
 const contactInfos = [
   {
     icon: "industrio-icon-phone-call",
-    title: "Call us on",
-    value: "222-121-4562"
+    title: "WhatsApp",
+    value: "+919068799470"
   },
   {
     icon: "industrio-icon-envelope",

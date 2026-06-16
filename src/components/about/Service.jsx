@@ -18,7 +18,7 @@ function Service() {
       title2: "Products",
     },
     {
-      img: "images/service-3.png",
+      img: "images/hq.jpg",
       icon: "industrio-icon-atomic",
       title1: "Heavy Equipments",
       title2: "Products",

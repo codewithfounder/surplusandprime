@@ -9,6 +9,7 @@ const services = [
     title1: "Oil & Gas",
     title2: "Products",
     slug: "oil-gas",
+    color: "#21aa47"
   },
   {
     img: "images/service-3-2.jpg",
@@ -16,13 +17,15 @@ const services = [
     title1: "Chemical",
     title2: "Products",
     slug: "chemical",
+    color: "#31DAF9"
   },
   {
-    img: "images/service-3.png",
+    img: "images/hq.jpg",
     icon: "industrio-icon-industry",
     title1: "Heavy Equipments",
     title2: "Products",
     slug: "heavy-equipments",
+    coor: "white"
   },
 ];
 
@@ -77,7 +80,7 @@ function Service() {
                       <i className={service.icon}></i>
 
                       <h3>
-                        <span>{service.title1}</span>
+                        <span style={{ color: "#21aa47 !important" }}>{service.title1}</span>
                         <br />
                         {service.title2}
                       </h3>

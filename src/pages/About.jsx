@@ -6,19 +6,19 @@ import Contact_info from "../components/Contact_info";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Mission from "../components/about/Mission";
-function About(){
-    return(
+function About() {
+    return (
         <>
-        <div className="page-wrapper mb0">
-        <Navbar logo="../images/surplus.png"/>
-        <Banner title="About Us" />
-        <AboutContent/>
-        <Mission/>
-        <Service/>
-        <Testimonials/>
-        <Contact_info/>
-        <Footer/>
-        </div>
+            <div className="page-wrapper mb0">
+                <Navbar logo="../images/surplus.png" />
+                <Banner title="About Us" />
+                <AboutContent />
+                <Mission />
+                {/* <Service/> */}
+                <Testimonials />
+                <Contact_info />
+                <Footer />
+            </div>
         </>
     )
 }
