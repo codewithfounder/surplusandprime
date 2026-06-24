@@ -31,7 +31,7 @@ function AboutSection() {
             <section className="service-title">
                 <div className="container">
                     <div className="sec-title light text-center">
-                        <h3><span>Surplus & Prime Worldwide</span> provides the best products for sustainable progress.</h3>
+                        <h3 className="phone"><span>Surplus & Prime Worldwide</span> provides the best products <br />for sustainable progress.</h3>
                     </div>
                 </div>
             </section>

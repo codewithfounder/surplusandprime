@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import BASE_URL from "../../../config/api";
 
 const Categories = ({ formData, setFormData, errors }) => {
     const [openGroup, setOpenGroup] = useState(0);
+    const [industry, setIndustry] = useState([]);
+
+    useEffect(() => {
+        fetch(`${BASE_URL}/category/view`)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status) {
+                    setIndustry(data.data);
+                }
+            })
+            .catch((err) => console.error(err));
+    }, []);
 
     const categoriesData = [
         {
             name: "Industry",
-            items: [
-                "Chemical & Petrochemicals",
-                "Commercial Equipment",
-                "Computer & Peripherals",
-                "Electrical Utilities & Downstream",
-                "Marine",
-                "Oil & Gas",
-                "Solar",
-                "Transportation/Vehicles/Mobile Assets",
-                "Heavy Equipment",
-                "Building Materials"
-            ]
+            items: industry.map((ind) => ind.Title)
         }
     ];
     // Toggle individual item

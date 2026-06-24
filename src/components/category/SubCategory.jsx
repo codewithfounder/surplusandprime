@@ -12,7 +12,7 @@ function SubCategory({ categoryId }) {
 
     const categoriesPerPage = 12;
 
-    // ✅ Fetch API
+    // Fetch API
     useEffect(() => {
         fetch(`${BASE_URL}/product_category/view/${categoryId}`)
             .then(res => res.json())
@@ -26,7 +26,7 @@ function SubCategory({ categoryId }) {
             .catch(err => console.error("API Error:", err));
     }, [categoryId]);
 
-    // 🔎 Search filter
+    // Search filter
     const filteredCategories = categories.filter((item) =>
         item.Title?.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -44,12 +44,12 @@ function SubCategory({ categoryId }) {
                 <div className="row">
 
                     {/* Sidebar */}
-                    <div className="col-md-3">
+                    <div className="col-md-3 sidebar-col">
                         <Sidebar setSearchTerm={setSearchTerm} />
                     </div>
 
                     {/* Products */}
-                    <div className="col-md-9">
+                    <div className="col-md-9 products-col">
 
                         <h3>
                             Product Categories
@@ -59,11 +59,12 @@ function SubCategory({ categoryId }) {
 
                             {currentCategories.map((item) => (
                                 <div
-                                    className="col-lg-3 col-md-4 col-sm-6 col-12" // Add col-12 for small screens
+                                    className="col-12 col-md-6 col-lg-4" // Add col-12 for small screens
                                     key={item.id}
                                 >
-                                    <Link to={`/products/${item.id}`}>
-                                        <div className="category-box">
+                                    <Link to={`/products/${item.slug}`} className="text-decoration-none"
+                                        style={{ width: "100%" }}>
+                                        <div className="category-box h-100">
                                             {/* ✅ Correct Image */}
                                             <img
                                                 src={item.image_url}

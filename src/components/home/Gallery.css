@@ -5,9 +5,9 @@
 
 /* 👇 container fix */
 .container {
-  max-width: 1200px;
+  width: 100%;
   margin: auto;
-  padding: 0 15px;
+  padding: 0 5rem;
 }
 
 /* spacing fix */

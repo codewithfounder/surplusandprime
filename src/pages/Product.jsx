@@ -5,15 +5,19 @@ import Navbar from "../components/Navbar";
 import ProductListing from "../components/Product/ProductListing";
 import { useParams } from "react-router-dom";
 
-function Product(){
+function Product() {
     const { categoryId } = useParams();
-    return(
+    const bannerTitle = categoryId
+        ?.split("-")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    return (
         <>
-        <Navbar logo="../images/surplus.png"/>
-        <Banner title="Products"/>
-        <ProductListing categoryId={categoryId}/>
-        <Contact_info/>
-        <Footer/>
+            <Navbar logo="../images/surplus.png" />
+            <Banner title={bannerTitle} />
+            <ProductListing categoryId={categoryId} />
+            <Contact_info />
+            <Footer />
         </>
     )
 }

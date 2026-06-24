@@ -41,7 +41,7 @@ function Login() {
         e.preventDefault();
 
         try {
-            const response = await fetch("http://localhost/virendra/SURPLUS/website/auth/login", {
+            const response = await fetch("https://surplusandprime.com/SURPLUS/website/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -57,7 +57,7 @@ function Login() {
             if (data.status) {
                 const encodedId = btoa(data.user.id.toString());
                 localStorage.setItem("uid", encodedId);
-                
+
                 // Check if there's a redirect URL
                 const redirectUrl = localStorage.getItem("redirectAfterLogin");
                 if (redirectUrl) {

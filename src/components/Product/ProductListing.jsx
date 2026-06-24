@@ -47,12 +47,12 @@ function ProductListing({ categoryId }) {
                 <div className="row">
 
                     {/* Sidebar */}
-                    <div className="col-md-3">
+                    <div className="col-md-3 sidebar-col">
                         <Sidebar setSearchTerm={setSearchTerm} />
                     </div>
 
                     {/* Products */}
-                    <div className="col-md-9">
+                    <div className="col-md-9 products-col">
 
                         <h3>Products</h3>
 
@@ -60,11 +60,12 @@ function ProductListing({ categoryId }) {
 
                             {currentProducts.map((product) => (
                                 <div
-                                    className="col-lg-3 col-md-4 col-sm-6 col-12"
+                                    className="col-12 col-md-6 col-lg-4"
                                     key={product.id}
                                     style={{ marginBottom: '2rem' }}
                                 >
-                                    <Link to={`/product-details/${product.id}`}>
+                                    <Link to={`/product-details/${product.slug}`} className="text-decoration-none"
+                                        style={{ width: "100%" }}>
 
                                         <div className="product-box">
 

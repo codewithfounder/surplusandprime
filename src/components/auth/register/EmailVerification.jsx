@@ -59,7 +59,7 @@ const EmailVerification = ({
 
     try {
       const res = await fetch(
-        "http://localhost/virendra/SURPLUS/website/auth/verify_otp",
+        "https://surplusandprime.com/SURPLUS/website/auth/verify_otp",
         {
           method: "POST",
           headers: {
@@ -103,7 +103,7 @@ const EmailVerification = ({
 
     try {
       const res = await fetch(
-        "http://localhost/virendra/SURPLUS/website/auth/verify_otp",
+        "https://surplusandprime.com/SURPLUS/website/auth/verify_otp",
         {
           method: "POST",
           headers: {
@@ -139,24 +139,24 @@ const EmailVerification = ({
 
       <div className="otp-container">
         <div>
-        {[0, 1, 2, 3].map((_, index) => (
-          <input
-            key={index}
-            type="text"
-            maxLength="1"
-            className="otp-input"
-            value={formData.otp[index] || ""}
-            onChange={(e) => handleChange(e, index)}
-            onKeyDown={(e) => handleBackspace(e, index)}
-            ref={(el) => (inputsRef.current[index] = el)}
-          />
-        ))}
+          {[0, 1, 2, 3].map((_, index) => (
+            <input
+              key={index}
+              type="text"
+              maxLength="1"
+              className="otp-input"
+              value={formData.otp[index] || ""}
+              onChange={(e) => handleChange(e, index)}
+              onKeyDown={(e) => handleBackspace(e, index)}
+              ref={(el) => (inputsRef.current[index] = el)}
+            />
+          ))}
         </div>
         <div className="text-center">
-      {/* ✅ SEND OTP BUTTON */}
-      <button type="button" onClick={handleSendOTP}>
-        Re-Send OTP
-      </button>
+          {/* ✅ SEND OTP BUTTON */}
+          <button type="button" onClick={handleSendOTP}>
+            Re-Send OTP
+          </button>
         </div>
       </div>
 

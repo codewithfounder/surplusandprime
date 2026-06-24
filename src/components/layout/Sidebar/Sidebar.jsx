@@ -64,7 +64,7 @@ function Sidebar({ setSearchTerm }) {
           {recentProducts.length > 0 ? (
             recentProducts.map((product) => (
               <div className="single-recent-post" key={product.id}>
-                <Link to={`/product-details/${product.id}`}>
+                <Link to={`/product-details/${product.slug}`}>
                   <h3>
                     {product.title.length > 50
                       ? product.title.substring(0, 50) + "..."
@@ -102,7 +102,7 @@ function Sidebar({ setSearchTerm }) {
                       cat.subcategories.map((sub) => (
                         <li key={sub.id}>
                           <Link
-                            to={`/products/${sub.id}`}
+                            to={`/products/${sub.slug}`}
                             className="clearfi" style={{ color: "green" }}
                           >
                             {sub.name}

@@ -2,7 +2,7 @@ import React from "react";
 
 const teamMembers = [
   {
-    img: "images/team-2-1.jpg",
+    img: "images/c1.avif",
     name: "Clyde Ohayon",
     role: "Founder & CEO"
   },

@@ -1,0 +1,22 @@
+/* Desktop & Tablet */
+.dasktop {
+    display: block;
+}
+
+.phone {
+    display: none;
+}
+
+/* Only Mobile */
+@media (max-width: 576px) {
+    .dasktop {
+        display: none;
+    }
+
+    .phone {
+        display: block;
+    }
+    .timeline{
+        display: none;
+    }
+}

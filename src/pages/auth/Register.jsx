@@ -4,6 +4,7 @@ import BasicDetails from "../../components/auth/register/BasicDetails";
 import EmailVerification from "../../components/auth/register/EmailVerification";
 import ContactInfo from "../../components/auth/register/ContactInfo";
 import Categories from "../../components/auth/register/Categories";
+import { Link } from "react-router-dom";
 import "./style.css";
 
 const Register = () => {
@@ -11,6 +12,7 @@ const Register = () => {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [regionText, setRegionText] = useState("");
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -105,7 +107,7 @@ const Register = () => {
         }
 
         const res = await fetch(
-            "http://localhost/virendra/SURPLUS/website/auth/verify_otp",
+            "https://surplusandprime.com/SURPLUS/website/auth/verify_otp",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -139,11 +141,47 @@ const Register = () => {
     }, []);
     return (
         <div className="container1">
-            <div>
-                <p className="top-cont">
-                    Global Marketplace for Asset Recovery & Surplus Inventory
-                </p>
+            <div class="topbar">
+                <div class="topbar-left text-center topbar-contnt">
+                    <div class="dasktop">
+                        <span><i class="fa fa-map-marker-alt"></i> FDR K-2058, Compass Bldg, Al Hamra, RAK, UAE</span>
+                    </div>
+                    <div class="phone">
+                        <span><i class="fa fa-map-marker-alt"></i> FDR K-2058,Al Hamra, RAK, UAE</span>
+                    </div>
+                    <div class="topbar-leftcontent">
+                        <span><i class="fa fa-envelope"></i> info@surplusandprime.com</span>
+                        <span class="timeline"><i class="fa fa-clock"></i> Monday to Saturday - 9:00 AM to 5PM</span>
+                    </div>
+                </div>
             </div>
+            {/* start header */}
+            <div className="navbar">
+                <div className="logo">
+                    <Link to="/">
+                        <img src="images/surplus.png" alt="logo" />
+                    </Link>
+                </div>
+
+                {/* NAV LINKS */}
+                <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
+                    {/* Mobile Extra Links */}
+                    <li className="mobile-extra">
+                        <Link to="/dashboard">
+                            <button className="pickup-btn"><i className="fa fa-user-shield admin-icon"></i>Login</button>
+                        </Link>
+                    </li>
+                </ul>
+
+                {/* Desktop Right */}
+                <div className="nav-right desktop-only">
+                    <Link to="/dashboard">
+                        <button className="pickup-btn"><i className="fa fa-user-shield admin-icon"></i></button>
+                    </Link>
+                </div>
+            </div>
+            {/* end header */}
+
 
             {/* Stepper */}
             <div className="stepper">
@@ -262,7 +300,7 @@ const Register = () => {
                             try {
 
                                 const res = await fetch(
-                                    "http://localhost/virendra/SURPLUS/website/auth/save_contact",
+                                    "https://surplusandprime.com/SURPLUS/website/auth/save_contact",
                                     {
                                         method: "POST",
                                         headers: { "Content-Type": "application/json" },
@@ -314,7 +352,7 @@ const Register = () => {
 
                             try {
                                 const res = await fetch(
-                                    "http://localhost/virendra/SURPLUS/website/auth/save_categories",
+                                    "https://surplusandprime.com/SURPLUS/website/auth/save_categories",
                                     {
                                         method: "POST",
                                         headers: {
@@ -350,7 +388,7 @@ const Register = () => {
                             if (!validateStep()) return;
 
                             const res = await fetch(
-                                "http://localhost/virendra/SURPLUS/website/auth/save_regions",
+                                "https://surplusandprime.com/SURPLUS/website/auth/save_regions",
                                 {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },

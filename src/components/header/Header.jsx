@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import BASE_URL from "../../config/api";
+import "./header.css";
 
 function Header({ logo }) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -34,7 +35,6 @@ function Header({ logo }) {
             })
             .catch((err) => console.error("Category API Error:", err));
     }, []);
-
     const handleLogout = () => {
         localStorage.removeItem("uid"); // ✅ important
 
@@ -50,12 +50,15 @@ function Header({ logo }) {
             {/* 🔷 TOPBAR */}
             <div className="topbar">
                 <div className="topbar-left text-center topbar-contnt">
-                    <div>
+                    <div className="dasktop">
                         <span><i className="fa fa-map-marker-alt"></i> FDR K-2058, Compass Bldg, Al Hamra, RAK, UAE</span>
+                    </div>
+                    <div className="phone">
+                        <span><i className="fa fa-map-marker-alt"></i> FDR K-2058,Al Hamra, RAK, UAE</span>
                     </div>
                     <div className="topbar-leftcontent">
                         <span><i className="fa fa-envelope"></i> info@surplusandprime.com</span>
-                        <span><i className="fa fa-clock"></i> Monday to Saturday - 9:00 AM to 5PM</span>
+                        <span className="timeline"><i className="fa fa-clock"></i> Monday to Saturday - 9:00 AM to 5PM</span>
                     </div>
                 </div>
             </div>
@@ -63,7 +66,9 @@ function Header({ logo }) {
             {/* 🔷 NAVBAR */}
             <div className="navbar">
                 <div className="logo">
-                    <img src={logo} alt="logo" />
+                    <Link to="/">
+                        <img src={logo} alt="logo" />
+                    </Link>
                 </div>
 
                 {/* HAMBURGER */}
@@ -78,16 +83,21 @@ function Header({ logo }) {
                     <li><Link to="/shop">Shop</Link></li>
                     <li
                         className="dropdown"
-                        onClick={() =>
-                            setActiveDropdown(activeDropdown === "category" ? null : "category")
-                        }
+
                     >
-                        <span>Industry ▾</span>
+                        <span onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveDropdown(
+                                activeDropdown === "category"
+                                    ? null
+                                    : "category"
+                            );
+                        }}>Industry ▾</span>
                         <ul className={`submenu ${activeDropdown === "category" ? "show" : ""}`}>
                             {categories.length > 0 ? (
                                 categories.map((cat) => (
                                     <li key={cat.id}>
-                                        <Link to={`/category/${cat.id}`}>
+                                        <Link to={`/category/${cat.slug}`}>
                                             {cat.name}
                                         </Link>
                                     </li>
@@ -108,7 +118,7 @@ function Header({ logo }) {
 
                         <ul className={`submenu ${activeDropdown === "more" ? "show" : ""}`}>
                             <li><Link to="/register">Buyer</Link></li>
-                            <li><Link to="http://localhost/virendra/SURPLUS/admin/auth/signin">Seller</Link></li>
+                            <li><Link to="https://surplusandprime.com/SURPLUS/admin/auth/signin">Seller</Link></li>
 
                             {/* Example: Logout option */}
                             {loggedIn && (

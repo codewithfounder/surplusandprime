@@ -31,6 +31,7 @@ const getCategoryText = (title) => {
 export default function Gallery() {
   const [categories, setCategories] = useState([]);
 
+
   useEffect(() => {
     fetch(`${BASE_URL}/category/view`)
       .then((res) => res.json())
@@ -47,7 +48,7 @@ export default function Gallery() {
       <div className="container"> {/* 👈 added */}
 
         <div className="sec-title section-title text-center">
-          <h3 style={{ color: 'blue' }}>Our Category</h3>
+          <h3 style={{ color: '#21aa47' }}>Our Category</h3>
           <p style={{ marginTop: "5px" }}>Connecting Global Industries Through Trusted <br />Surplus Equipment Solutions</p>
         </div>
 
@@ -58,7 +59,7 @@ export default function Gallery() {
         >
           {categories.map((item) => (
             <div className="gallery-cell" key={item.id}>
-              <Link to={`/category/${item.id}`}>
+              <Link to={`/category/${item.slug}`}>
                 <img
                   src={`${item.image_url}${item.Image}`}
                   alt={item.Title}

@@ -23,6 +23,7 @@ function ProductListing() {
             id: item.id,
             name: item.Title,
             img: item.image_url || "/images/default.jpg",
+            slug: item.slug,
           }));
 
           setProducts(formatted);
@@ -37,8 +38,8 @@ function ProductListing() {
 
   // ✅ Search filter
   const filteredProducts = products.filter((product) =>
-  (product.name || "").toLowerCase().includes(searchTerm.toLowerCase())
-);
+    (product.name || "").toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // ✅ Pagination logic
   const lastIndex = currentPage * productsPerPage;
@@ -54,14 +55,14 @@ function ProductListing() {
         style={{ marginTop: "10rem", marginBottom: "10rem" }}
       >
         <div className="row">
-          
+
           {/* Sidebar */}
-          <div className="col-md-3">
+          <div className="col-md-3 sidebar-col">
             <Sidebar setSearchTerm={setSearchTerm} />
           </div>
 
           {/* Products */}
-          <div className="col-md-9">
+          <div className="col-md-9 products-col">
             <h3>
               Latest - <span>Products</span>
             </h3>
@@ -73,14 +74,13 @@ function ProductListing() {
               <>
                 <div className="row g-4">
                   {currentProducts.length > 0 ? (
+                    console.log(currentProducts),
                     currentProducts.map((product) => (
-                      <div
-                        className="col-12 col-md-4 col-lg-3"
-                        key={product.id}
-                      >
+                      <div className="col-12 col-md-6 col-lg-4" key={product.id}>
                         <Link
-                          to={`/product-details/${product.id}`}
+                          to={`/product-details/${product.slug}`}
                           className="text-decoration-none"
+                          style={{ width: "100%" }}
                         >
                           <div className="product-box h-100">
                             <img

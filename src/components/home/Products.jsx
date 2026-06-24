@@ -177,7 +177,7 @@ function Products() {
                       <div className="content">
                         <span>Shop Now</span>
 
-                        <Link to={`/product-details/${project.id}`}>
+                        <Link to={`/product-details/${project.slug}`}>
                           <h3>{project.Title}</h3>
                         </Link>
 

@@ -2,8 +2,8 @@ import React from "react";
 import Slider from "react-slick";
 
 const testimonials = [
-   {
-    img: "images/team-2-1.jpg",
+  {
+    img: "images/c1.avif",
     text: "Manufacturing industry became a key sector of production and labour in European and North American countries during the Industrial Revolution, upsetting previous mercantile and feudal economies.",
     name: "Farnandoz Biki",
     role: "CEO"
@@ -34,7 +34,7 @@ function About_Clients() {
   };
 
   return (
-    <section className="testimonials-style-three">
+    <section className="testimonials-style-three" style={{ paddingTop: "132px", paddingBottom: "46px" }}>
       <div className="container">
 
         <div className="sec-title light">

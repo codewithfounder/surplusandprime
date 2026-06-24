@@ -6,6 +6,13 @@
 .side-navigation.open {
     transform: translateX(0);
 }
-.navigation-box li .sub-menu{
+
+.navigation-box li .sub-menu {
     display: block;
+}
+
+@media (max-width: 668px) {
+    .phone {
+        font-size: 12px !important;
+    }
 }

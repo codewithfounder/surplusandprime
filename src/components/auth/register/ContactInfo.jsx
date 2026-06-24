@@ -1,18 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Country, State } from "country-state-city";
 import "./style.css";
+import BASE_URL from "../../../config/api"
 
 const ContactInfo = ({ formData, setFormData, handleChange, errors }) => {
+  const [industry, setIndustry] = useState([]);
   const countries = Country.getAllCountries();
   const states = formData.country
     ? State.getStatesOfCountry(formData.country)
     : [];
 
+  // Fetch Industry
+  useEffect(() => {
+    fetch(`${BASE_URL}/category/view`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          setIndustry(data.data);
+        }
+      })
+      .catch((err) => console.error("API Error:", err));
+  }, []);
+
   // Custom change handler for country reset logic
   const handleCountryChange = (e) => {
     const { value } = e.target;
 
-    setFormData((prev)=>({
+    setFormData((prev) => ({
       ...prev,
       country: value,
       state: "", // reset state when country changes
@@ -67,29 +81,17 @@ const ContactInfo = ({ formData, setFormData, handleChange, errors }) => {
             value={formData.industry}
             onChange={handleChange}
             className={errors.industry ? "error" : ""}
-            style={{width: "100%" }}
+            style={{ width: "100%" }}
           >
             <option value="">Select Industry</option>
-            <option value="Chemical-Petrochemicals">
-              Chemical & Petrochemicals
-            </option>
-            <option value="Commercial Equipment">
-              Commercial Equipment
-            </option>
-            <option value="Computer & Peripherals">
-              Computer & Peripherals
-            </option>
-            <option value="Electrical Utilities & Downstream">
-              Electrical Utilities & Downstream
-            </option>
-            <option value="Marine">Marine</option>
-            <option value="Oil & Gas">Oil & Gas</option>
-            <option value="Solar">Solar</option>
-            <option value="Transportation/Vehicles/Mobile Assets">
-              Transportation/Vehicles/Mobile Assets
-            </option>
-            <option value="Heavy Equipment">Heavy Equipment</option>
-            <option value="Building Materials">Building Materials</option>
+            {industry.map((industry) => (
+              <option
+                key={industry.id}
+                value={industry.Title}
+              >
+                {industry.Title}
+              </option>
+            ))}
           </select>
           {errors.industry && (
             <p className="error-text">{errors.industry}</p>

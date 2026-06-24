@@ -428,3 +428,21 @@
 .basic-details .submit-btn:hover {
   background-color: #252525;
 }
+
+
+.react-tel-input {
+  width: 100%;
+}
+
+/* .react-tel-input .form-control {
+  width: 100% !important;
+  height: 48px !important;
+} */
+
+.react-tel-input .flag-dropdown {
+  border: 1px solid #ccc !important;
+}
+
+.react-tel-input .selected-flag {
+  width: 46px;
+}

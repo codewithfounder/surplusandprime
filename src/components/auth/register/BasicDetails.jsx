@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const BasicDetails = ({
   formData,
@@ -12,15 +14,15 @@ const BasicDetails = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [countryList, setCountryList] = useState([]);
-  const [isMobileDisabled, setIsMobileDisabled] = useState(true);
+  // const [countryList, setCountryList] = useState([]);
+  // const [isMobileDisabled, setIsMobileDisabled] = useState(true);
   const [mobileValid, setMobileValid] = useState(false);
 
   // CAPTCHA STATES
   const [captcha, setCaptcha] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
 
-  const mobileInputRef = useRef(null);
+  // const mobileInputRef = useRef(null);
 
   // GENERATE CAPTCHA
   const generateCaptcha = () => {
@@ -38,233 +40,117 @@ const BasicDetails = ({
 
   // Fetch countries on mount
   useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all?fields=cca2,name,flags,idd")
-      .then((res) => res.json())
-      .then((data) => {
-        const countries = data
-          .map((c) => ({
-            name: c.name.common,
-            code: c.cca2,
-            dialCode: c.idd.root
-              ? c.idd.root +
-              (c.idd.suffixes ? c.idd.suffixes[0] : "")
-              : "",
-          }))
-          .filter((c) => c.dialCode)
-          .sort((a, b) => a.name.localeCompare(b.name));
-
-        setCountryList(countries);
-      })
-      .catch((err) => console.error(err));
-
-    // Generate captcha on load
-    generateCaptcha();
-  }, []);
+  generateCaptcha();
+}, []);
+  
 
   // Handle country code change
-  const handleCountryChange = (e) => {
-    const selectedCode = e.target.value;
+  // const handleCountryChange = (e) => {
+  //   const selectedCode = e.target.value;
 
-    setFormData((prev) => ({
-      ...prev,
-      countryCode: selectedCode,
-      mobile: "",
-    }));
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     countryCode: selectedCode,
+  //     mobile: "",
+  //   }));
 
-    setErrors((prev) => ({ ...prev, mobile: "" }));
-    setMobileValid(false);
+  //   setErrors((prev) => ({ ...prev, mobile: "" }));
+  //   setMobileValid(false);
 
-    if (selectedCode) {
-      setIsMobileDisabled(false);
+  //   if (selectedCode) {
+  //     setIsMobileDisabled(false);
 
-      setTimeout(() => {
-        if (mobileInputRef.current) {
-          mobileInputRef.current.focus();
-        }
-      }, 100);
-    } else {
-      setIsMobileDisabled(true);
-    }
-  };
+  //     setTimeout(() => {
+  //       if (mobileInputRef.current) {
+  //         mobileInputRef.current.focus();
+  //       }
+  //     }, 100);
+  //   } else {
+  //     setIsMobileDisabled(true);
+  //   }
+  // };
 
   // Remove plus sign
-  const getCountryCodeWithoutPlus = (dialCode) => {
-    return dialCode.replace("+", "");
-  };
+  // const getCountryCodeWithoutPlus = (dialCode) => {
+  //   return dialCode.replace("+", "");
+  // };
 
   // Validate mobile number
   const validateMobile = (mobileNumber, countryCode) => {
-    if (!countryCode) {
-      setErrors((prev) => ({
-        ...prev,
-        mobile: "Please select a country code first",
-      }));
-
-      setMobileValid(false);
-      return false;
-    }
-
-    if (!mobileNumber) {
-      setErrors((prev) => ({
-        ...prev,
-        mobile: "Mobile number is required",
-      }));
-
-      setMobileValid(false);
-      return false;
-    }
-
-    const cleanMobile = mobileNumber.replace(/\D/g, "");
-
-    if (cleanMobile.length === 0) {
-      setErrors((prev) => ({
-        ...prev,
-        mobile: "Please enter a valid mobile number",
-      }));
-
-      setMobileValid(false);
-      return false;
-    }
-
-    const countryCodeWithoutPlus =
-      getCountryCodeWithoutPlus(countryCode);
-
-    let finalMobileNumber = cleanMobile;
-    let isCountryCodeInNumber = false;
-
-    if (cleanMobile.startsWith(countryCodeWithoutPlus)) {
-      isCountryCodeInNumber = true;
-
-      finalMobileNumber = cleanMobile.substring(
-        countryCodeWithoutPlus.length
-      );
-    }
-
-    let minLength = 7;
-    let maxLength = 15;
-
-    if (countryCodeWithoutPlus === "1") {
-      minLength = 10;
-      maxLength = 10;
-    } else if (countryCodeWithoutPlus === "91") {
-      minLength = 10;
-      maxLength = 10;
-    } else if (countryCodeWithoutPlus === "44") {
-      minLength = 10;
-      maxLength = 10;
-    } else if (countryCodeWithoutPlus === "61") {
-      minLength = 9;
-      maxLength = 10;
-    } else if (countryCodeWithoutPlus === "86") {
-      minLength = 11;
-      maxLength = 11;
-    }
-
-    const isValidLength =
-      finalMobileNumber.length >= minLength &&
-      finalMobileNumber.length <= maxLength;
-
-    if (!isValidLength) {
-      setErrors((prev) => ({
-        ...prev,
-        mobile: `Mobile number should be ${minLength} digits ${minLength !== maxLength ? `to ${maxLength}` : ""
-          }`,
-      }));
-
-      setMobileValid(false);
-      return false;
-    }
-
-    if (finalMobileNumber.startsWith("0")) {
-      setErrors((prev) => ({
-        ...prev,
-        mobile: "Mobile number should not start with 0",
-      }));
-
-      setMobileValid(false);
-      return false;
-    }
-
+  if (!countryCode) {
     setErrors((prev) => ({
       ...prev,
-      mobile: "",
+      mobile: "Please select a country code",
     }));
+    return false;
+  }
 
-    setMobileValid(true);
+  if (!mobileNumber) {
+    setErrors((prev) => ({
+      ...prev,
+      mobile: "Mobile number is required",
+    }));
+    return false;
+  }
 
-    if (isCountryCodeInNumber) {
-      setFormData((prev) => ({
-        ...prev,
-        mobile: finalMobileNumber,
-      }));
-    }
+  const cleanMobile = mobileNumber.replace(/\D/g, "");
 
-    return true;
-  };
+  if (cleanMobile.length < 6 || cleanMobile.length > 15) {
+    setErrors((prev) => ({
+      ...prev,
+      mobile: "Please enter a valid mobile number",
+    }));
+    return false;
+  }
+
+  setErrors((prev) => ({
+    ...prev,
+    mobile: "",
+  }));
+
+  setMobileValid(true);
+
+  return true;
+};
 
   // Handle mobile change
-  const handleMobileChange = (e) => {
-    let value = e.target.value;
+  const handleMobileChange = (value, country) => {
+  const dialCode = `+${country.dialCode}`;
 
-    value = value.replace(/\s/g, "");
+  let mobile = value;
 
-    setFormData((prev) => ({
-      ...prev,
-      mobile: value,
-    }));
+  if (value.startsWith(country.dialCode)) {
+    mobile = value.slice(country.dialCode.length);
+  }
 
-    if (formData.countryCode && value) {
-      const cleanMobile = value.replace(/\D/g, "");
+  setFormData((prev) => ({
+    ...prev,
+    countryCode: dialCode,
+    mobile,
+  }));
 
-      const countryCodeWithoutPlus =
-        getCountryCodeWithoutPlus(formData.countryCode);
-
-      let minLength = 7;
-
-      if (
-        countryCodeWithoutPlus === "1" ||
-        countryCodeWithoutPlus === "91" ||
-        countryCodeWithoutPlus === "44"
-      ) {
-        minLength = 10;
-      }
-
-      if (cleanMobile.length >= minLength) {
-        validateMobile(value, formData.countryCode);
-      } else if (errors.mobile) {
-        setErrors((prev) => ({
-          ...prev,
-          mobile: "",
-        }));
-
-        setMobileValid(false);
-      }
-    } else if (errors.mobile) {
-      setErrors((prev) => ({
-        ...prev,
-        mobile: "",
-      }));
-
-      setMobileValid(false);
-    }
-  };
+  setErrors((prev) => ({
+    ...prev,
+    mobile: "",
+  }));
+};
 
   // Handle mobile blur
-  const handleMobileBlur = () => {
-    if (formData.mobile && formData.countryCode) {
-      validateMobile(
-        formData.mobile,
-        formData.countryCode
-      );
-    } else if (!formData.countryCode && formData.mobile) {
-      setErrors((prev) => ({
-        ...prev,
-        mobile: "Please select a country code first",
-      }));
+  // const handleMobileBlur = () => {
+  //   if (formData.mobile && formData.countryCode) {
+  //     validateMobile(
+  //       formData.mobile,
+  //       formData.countryCode
+  //     );
+  //   } else if (!formData.countryCode && formData.mobile) {
+  //     setErrors((prev) => ({
+  //       ...prev,
+  //       mobile: "Please select a country code first",
+  //     }));
 
-      setMobileValid(false);
-    }
-  };
+  //     setMobileValid(false);
+  //   }
+  // };
 
   // Validate password
   const validatePassword = (password) => {
@@ -453,7 +339,7 @@ const BasicDetails = ({
 
     try {
       const res = await fetch(
-        "http://localhost/virendra/SURPLUS/website/auth/register_step1",
+        "https://surplusandprime.com/SURPLUS/website/auth/register_step1",
         {
           method: "POST",
           headers: {
@@ -535,51 +421,26 @@ const BasicDetails = ({
               Mobile Number <span>*</span>
             </label>
 
-            <div
-              className={`mobile-input-wrapper ${errors.mobile
-                ? "error-wrapper"
-                : ""
-                }`}
-            >
-              <select
-                name="countryCode"
-                value={formData.countryCode}
-                onChange={handleCountryChange}
-                className="country-selector-button"
-                style={{ width: "12rem" }}
-              >
-                <option value="">
-                  Select Country Code
-                </option>
-
-                {countryList.map((c) => (
-                  <option
-                    key={c.code}
-                    value={c.dialCode}
-                  >
-                    {c.name} ({c.dialCode})
-                  </option>
-                ))}
-              </select>
-
-              <input
-                ref={mobileInputRef}
-                type="tel"
-                name="mobile"
-                placeholder={
-                  isMobileDisabled
-                    ? "Select country code first"
-                    : "Enter mobile number"
-                }
-                value={formData.mobile}
-                onChange={handleMobileChange}
-                onBlur={handleMobileBlur}
-                disabled={isMobileDisabled}
-                className={
-                  errors.mobile ? "error" : ""
-                }
-              />
-            </div>
+            <PhoneInput
+  country="in"
+  enableSearch
+  value={`${formData.countryCode}${formData.mobile}`}
+  onChange={handleMobileChange}
+  containerStyle={{
+    width: "100%",
+  }}
+  inputStyle={{
+    width: "100%",
+    paddingLeft: "55px",
+  }}
+  searchStyle={{
+    width: "90%",
+  }}
+  buttonStyle={{
+    border: "1px solid #ccc",
+    background: "#fff",
+  }}
+/>
 
             {errors.mobile && (
               <p className="error-text">

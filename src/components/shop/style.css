@@ -26,6 +26,7 @@
 .product-section .row {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Product Card */
@@ -69,10 +70,10 @@
 }
 
 /* Grid fix */
-.product-section .row {
+/* .product-section .row {
   display: flex;
   flex-wrap: wrap;
-}
+} */
 
 /* Make columns stretch */
 .product-section .col-lg-3,
@@ -142,6 +143,10 @@
   .product-title {
     font-size: 15px;
   }
+
+  .container {
+    padding: 0 3rem !important;
+  }
 }
 
 @media (min-width: 576px) {
@@ -151,5 +156,24 @@
 
   .product-title {
     font-size: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .product-section .row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-col {
+    order: 2;
+  }
+
+  .products-col {
+    order: 1;
+  }
+
+  .container {
+    padding: 0 1rem !important;
   }
 }
