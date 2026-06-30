@@ -64,7 +64,7 @@ function ProductListing({ categoryId }) {
                                     key={product.id}
                                     style={{ marginBottom: '2rem' }}
                                 >
-                                    <Link to={`/product-details/${product.slug}`} className="text-decoration-none"
+                                    <Link to={`/product/${product.slug}`} className="text-decoration-none"
                                         style={{ width: "100%" }}>
 
                                         <div className="product-box">

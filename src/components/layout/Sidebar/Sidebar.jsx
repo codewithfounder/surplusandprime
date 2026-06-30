@@ -23,6 +23,7 @@ function Sidebar({ setSearchTerm }) {
         if (data.status) {
           const formatted = data.data.map((item) => ({
             id: item.id,
+            slug: item.slug,
             title: item.Title || "Untitled Product",
           }));
 
@@ -64,7 +65,7 @@ function Sidebar({ setSearchTerm }) {
           {recentProducts.length > 0 ? (
             recentProducts.map((product) => (
               <div className="single-recent-post" key={product.id}>
-                <Link to={`/product-details/${product.slug}`}>
+                <Link to={`/product/${product.slug}`}>
                   <h3>
                     {product.title.length > 50
                       ? product.title.substring(0, 50) + "..."
@@ -102,7 +103,7 @@ function Sidebar({ setSearchTerm }) {
                       cat.subcategories.map((sub) => (
                         <li key={sub.id}>
                           <Link
-                            to={`/products/${sub.slug}`}
+                            to={`/product-category/${cat.slug}/${sub.slug}`}
                             className="clearfi" style={{ color: "green" }}
                           >
                             {sub.name}

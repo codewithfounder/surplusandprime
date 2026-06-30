@@ -64,7 +64,7 @@ function Sidebar({ isOpen, closeSidebar }) {
                             </li>
 
                             <li>
-                                <a href="project.html">Shop</a>
+                                <Link to="/shop">Shop</Link>
                             </li>
                             {/* SERVICES */}
                             <li>
@@ -77,16 +77,16 @@ function Sidebar({ isOpen, closeSidebar }) {
                                     style={{ display: openMenu === "category" ? "block" : "none" }}
                                 >
                                     {categories.length > 0 ? (
-                                categories.map((cat) => (
-                                    <li key={cat.id}>
-                                        <Link to={`/category/${cat.id}`}>
-                                            {cat.name}
-                                        </Link>
-                                    </li>
-                                ))
-                            ) : (
-                                <li>No categories</li>
-                            )}
+                                        categories.map((cat) => (
+                                            <li key={cat.id}>
+                                                <Link to={`/product-category/${cat.id}`}>
+                                                    {cat.name}
+                                                </Link>
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li>No categories</li>
+                                    )}
                                 </ul>
                             </li>
 
@@ -102,9 +102,9 @@ function Sidebar({ isOpen, closeSidebar }) {
                                     className="sub-menu"
                                     style={{ display: openMenu === "account" ? "block" : "none" }}
                                 >
-                                        <li> <a href="404.html">Login</a> </li>
-                                        <li> <a href="coming-soon.html">Register</a> </li>
-                                        <li> <a href="project.html">Your Wishlist</a> </li>
+                                    <li> <a href="404.html">Login</a> </li>
+                                    <li> <a href="coming-soon.html">Register</a> </li>
+                                    <li> <a href="project.html">Your Wishlist</a> </li>
                                 </ul>
                             </li>
                         </ul>

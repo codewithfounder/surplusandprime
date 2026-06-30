@@ -109,6 +109,7 @@
 .nav-links li {
   cursor: pointer;
   /* text-align: center; */
+  line-height: 14px;
 }
 
 /* RIGHT SECTION */
@@ -170,6 +171,7 @@
 
 .dropdown:hover .submenu {
   display: grid;
+  background-color: #f1f1f1;
 }
 
 .submenu {

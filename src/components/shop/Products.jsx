@@ -74,11 +74,10 @@ function ProductListing() {
               <>
                 <div className="row g-4">
                   {currentProducts.length > 0 ? (
-                    console.log(currentProducts),
                     currentProducts.map((product) => (
                       <div className="col-12 col-md-6 col-lg-4" key={product.id}>
                         <Link
-                          to={`/product-details/${product.slug}`}
+                          to={`/product/${product.slug}`}
                           className="text-decoration-none"
                           style={{ width: "100%" }}
                         >

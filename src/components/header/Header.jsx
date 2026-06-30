@@ -45,6 +45,12 @@ function Header({ logo }) {
         navigate("/login");
     };
 
+    const toTitleCase = (text) => {
+        return text
+            ?.toLowerCase()
+            .replace(/\b\w/g, (char) => char.toUpperCase());
+    };
+
     return (
         <>
             {/* 🔷 TOPBAR */}
@@ -108,7 +114,7 @@ function Header({ logo }) {
                                                         <Link
                                                             to={`/product-category/${cat.slug}/${sub.slug}`}
                                                         >
-                                                            {sub.name}
+                                                            {toTitleCase(sub.name)}
                                                         </Link>
                                                     </li>
                                                 ))}

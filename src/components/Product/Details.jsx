@@ -435,7 +435,7 @@ function Details({ productId }) {
 
                             <div
                                 className="latest-product-card"
-                                onClick={() => navigate(`/product-details/${item.slug}`)}
+                                onClick={() => navigate(`/product/${item.slug}`)}
                                 style={{ cursor: "pointer" }}
                             >
 
