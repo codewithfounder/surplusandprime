@@ -97,7 +97,7 @@ function Header({ logo }) {
                             {categories.length > 0 ? (
                                 categories.map((cat) => (
                                     <li key={cat.id}>
-                                        <Link to={`/category/${cat.slug}`}>
+                                        <Link to={`/product-category/${cat.slug}`}>
                                             {cat.name}
                                         </Link>
                                     </li>
