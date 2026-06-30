@@ -6,16 +6,16 @@ import ProductListing from "../components/Product/ProductListing";
 import { useParams } from "react-router-dom";
 
 function Product() {
-    const { categoryId } = useParams();
-    const bannerTitle = categoryId
+    const { subcategorySlug } = useParams();
+    const bannerTitle = subcategorySlug
         ?.split("-")
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
     return (
         <>
-            <Navbar logo="../images/surplus.png" />
+            <Navbar logo="/images/surplus.png" />
             <Banner title={bannerTitle} />
-            <ProductListing categoryId={categoryId} />
+            <ProductListing categoryId={subcategorySlug} />
             <Contact_info />
             <Footer />
         </>

@@ -86,7 +86,7 @@ function Service() {
                       </h3>
 
                       <Link
-                        to={`/category/${service.categoryId}`}
+                        to={`/product-category/${service.slug}`}
                         className="more hvr-sweep-to-right"
                       >
                         Shop Now <i className="fa fa-arrow-right"></i>

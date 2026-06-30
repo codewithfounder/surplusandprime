@@ -62,7 +62,7 @@ function SubCategory({ categoryId }) {
                                     className="col-12 col-md-6 col-lg-4" // Add col-12 for small screens
                                     key={item.id}
                                 >
-                                    <Link to={`/products/${item.slug}`} className="text-decoration-none"
+                                    <Link to={`/product-category/${item.category_sluge}/${item.slug}`} className="text-decoration-none"
                                         style={{ width: "100%" }}>
                                         <div className="category-box h-100">
                                             {/* ✅ Correct Image */}

@@ -96,10 +96,32 @@ function Header({ logo }) {
                         <ul className={`submenu ${activeDropdown === "category" ? "show" : ""}`}>
                             {categories.length > 0 ? (
                                 categories.map((cat) => (
-                                    <li key={cat.id}>
-                                        <Link to={`/product-category/${cat.slug}`}>
+                                    <li key={cat.id} className="category-item">
+                                        <Link to={`/product-category/${cat.slug}`} className="category-title">
                                             {cat.name}
                                         </Link>
+
+                                        {cat.subcategories?.length > 0 && (
+                                            <ul className="subcategory-list">
+                                                {cat.subcategories.slice(0, 3).map((sub) => (
+                                                    <li key={sub.id}>
+                                                        <Link
+                                                            to={`/product-category/${cat.slug}/${sub.slug}`}
+                                                        >
+                                                            {sub.name}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+
+                                                {cat.subcategories.length > 4 && (
+                                                    <li>
+                                                        <Link to={`/product-category/${cat.slug}`}>
+                                                            View All →
+                                                        </Link>
+                                                    </li>
+                                                )}
+                                            </ul>
+                                        )}
                                     </li>
                                 ))
                             ) : (

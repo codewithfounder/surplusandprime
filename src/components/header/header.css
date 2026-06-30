@@ -7,6 +7,12 @@
     display: none;
 }
 
+.category-title {
+    font-size: small !important;
+    font-weight: 600 !important;
+    font-family: system-ui;
+}
+
 /* Only Mobile */
 @media (max-width: 576px) {
     .dasktop {
@@ -16,7 +22,8 @@
     .phone {
         display: block;
     }
-    .timeline{
+
+    .timeline {
         display: none;
     }
 }

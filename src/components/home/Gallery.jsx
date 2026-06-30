@@ -59,7 +59,7 @@ export default function Gallery() {
         >
           {categories.map((item) => (
             <div className="gallery-cell" key={item.id}>
-              <Link to={`/category/${item.slug}`}>
+              <Link to={`/product-category/${item.slug}`}>
                 <img
                   src={`${item.image_url}${item.Image}`}
                   alt={item.Title}
