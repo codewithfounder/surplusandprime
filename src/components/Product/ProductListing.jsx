@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 import BASE_URL from "../../config/api";
 
 function ProductListing({ categoryId }) {
-
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const productsPerPage = 12;
 
@@ -17,6 +17,7 @@ function ProductListing({ categoryId }) {
     useEffect(() => {
         if (!categoryId) return;
 
+        setLoading(true);
         fetch(`${BASE_URL}/product/view/${categoryId}`)
             .then(res => res.json())
             .then(data => {
@@ -25,8 +26,12 @@ function ProductListing({ categoryId }) {
                 } else {
                     setProducts([]);
                 }
+                setLoading(false);
             })
-            .catch(err => console.error("API Error:", err));
+            .catch(err => {
+                console.error("API Error:", err);
+                setLoading(false);
+            });
     }, [categoryId]);
 
     // 🔎 Search
@@ -38,7 +43,6 @@ function ProductListing({ categoryId }) {
     const firstIndex = lastIndex - productsPerPage;
 
     const currentProducts = filteredProducts.slice(firstIndex, lastIndex);
-
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
     return (
@@ -53,50 +57,75 @@ function ProductListing({ categoryId }) {
 
                     {/* Products */}
                     <div className="col-md-9 products-col">
-
-                        <h3>Products</h3>
-
-                        <div className="row g-4">
-
-                            {currentProducts.map((product) => (
-                                <div
-                                    className="col-12 col-md-6 col-lg-4"
-                                    key={product.id}
-                                    style={{ marginBottom: '2rem' }}
-                                >
-                                    <Link to={`/product/${product.slug}`} className="text-decoration-none"
-                                        style={{ width: "100%" }}>
-
-                                        <div className="product-box">
-
-                                            {/* ✅ API Image */}
-                                            <img
-                                                src={product.image_url}
-                                                className="product-img"
-                                                alt={product.Title}
-                                            />
-
-                                            <div className="product-content">
-                                                <p className="product-title">
-                                                    {product.Title}
-                                                </p>
-                                            </div>
-
-                                        </div>
-                                    </Link>
-
-                                </div>
-                            ))}
-
+                        <div className="product-header">
+                            <h3>
+                                Products <span>Collection</span>
+                            </h3>
+                            <p className="product-count">{filteredProducts.length} products found</p>
                         </div>
 
-                        {/* Pagination */}
-                        <Pagination
-                            totalPages={totalPages}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
+                        {loading ? (
+                            <div className="loading-spinner">
+                                <div className="spinner"></div>
+                                <p>Loading products...</p>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="row g-4">
+                                    {currentProducts.length > 0 ? (
+                                        currentProducts.map((product) => (
+                                            <div
+                                                className="col-12 col-md-6 col-lg-4"
+                                                key={product.id}
+                                            >
+                                                <Link
+                                                    to={`/product/${product.slug}`}
+                                                    className="text-decoration-none"
+                                                >
+                                                    <div className="product-card">
+                                                        <div className="product-image-wrapper">
+                                                            <img
+                                                                src={product.image_url}
+                                                                className="product-img"
+                                                                alt={product.Title}
+                                                                onError={(e) => {
+                                                                    e.target.src = "/images/default.jpg";
+                                                                }}
+                                                            />
+                                                            <div className="product-overlay">
+                                                                <span className="view-details">View Details</span>
+                                                            </div>
+                                                        </div>
 
+                                                        <div className="product-content">
+                                                            <h4 className="product-title">
+                                                                {product.Title}
+                                                            </h4>
+                                                            <div className="product-footer">
+                                                                <span className="shop-now">Shop Now →</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="no-products">
+                                            <p>No products found in this category</p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Pagination */}
+                                {totalPages > 1 && (
+                                    <Pagination
+                                        totalPages={totalPages}
+                                        currentPage={currentPage}
+                                        setCurrentPage={setCurrentPage}
+                                    />
+                                )}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

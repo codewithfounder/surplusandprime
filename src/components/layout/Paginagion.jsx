@@ -51,10 +51,11 @@ function Pagination({ totalPages, currentPage, setCurrentPage }) {
   return (
     <nav className="custom-pagination">
       <ul>
-
         {/* Previous */}
         <li className={currentPage === 1 ? "disabled" : ""}>
-          <button onClick={handlePrev}>‹</button>
+          <button onClick={handlePrev} className="prev-btn">
+            <i className="fa fa-chevron-left"></i>
+          </button>
         </li>
 
         {/* Dynamic Pagination */}
@@ -75,9 +76,10 @@ function Pagination({ totalPages, currentPage, setCurrentPage }) {
 
         {/* Next */}
         <li className={currentPage === totalPages ? "disabled" : ""}>
-          <button onClick={handleNext}>›</button>
+          <button onClick={handleNext} className="next-btn">
+            <i className="fa fa-chevron-right"></i>
+          </button>
         </li>
-
       </ul>
     </nav>
   );

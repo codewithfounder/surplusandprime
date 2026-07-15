@@ -27,7 +27,6 @@ function Sidebar({ setSearchTerm }) {
             title: item.Title || "Untitled Product",
           }));
 
-          // Get latest 2 (assuming latest = last items)
           const latestTwo = formatted.slice(-2).reverse();
 
           setRecentProducts(latestTwo);
@@ -48,54 +47,73 @@ function Sidebar({ setSearchTerm }) {
   }, []);
 
   return (
-    <div className="sidebar sidebar-right">
-
-      <div className="single-sidebar search-widget">
-        <form action="#">
-          <input type="text" placeholder="Search..." onChange={handleSearch} />
-          <button type="submit" className="fa fa-search"></button>
-        </form>
+    <div className="sidebar-wrapper">
+      {/* Search Widget */}
+      <div className="sidebar-widget search-widget">
+        <div className="widget-header">
+          <h3>Search Results</h3>
+        </div>
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search products..."
+            onChange={handleSearch}
+            className="search-input"
+          />
+          <button type="submit" className="search-btn">
+            <i className="fa fa-search"></i>
+          </button>
+        </div>
       </div>
 
-      <div className="single-sidebar recent-post-widget" >
-        <div className="title">
-          <h3>Recent <span style={{ fontSize: '1.7rem', color: '#21aa47' }}>Product</span></h3>
+      {/* Recent Products Widget */}
+      <div className="sidebar-widget recent-widget">
+        <div className="widget-header">
+          <h3>Recent <span>Products</span></h3>
         </div>
-        <div className="recent-post-list">
+        <div className="recent-products">
           {recentProducts.length > 0 ? (
             recentProducts.map((product) => (
-              <div className="single-recent-post" key={product.id}>
-                <Link to={`/product/${product.slug}`}>
-                  <h3>
+              <Link
+                to={`/product/${product.slug}`}
+                className="recent-product-item"
+                key={product.id}
+              >
+                <div className="recent-product-content">
+                  <h4>
                     {product.title.length > 50
                       ? product.title.substring(0, 50) + "..."
                       : product.title}
-                  </h3>
-                </Link>
-              </div>
+                  </h4>
+                  <span className="view-link">View Product →</span>
+                </div>
+              </Link>
             ))
           ) : (
-            <p>No recent products</p>
+            <p className="no-data">No recent products</p>
           )}
         </div>
       </div>
 
-      <div className="single-sidebar category-widget">
-        <div className="title">
+      {/* Categories Widget */}
+      <div className="sidebar-widget category-widget">
+        <div className="widget-header">
           <h3>Categories</h3>
         </div>
-        <ul className="category-list" style={{ paddingLeft: "1rem" }}>
+        <ul className="category-list">
           {categories.length > 0 ? (
             categories.map((cat) => (
-              <li key={cat.id}>
-                <a
-                  className="clearfix"
-                  style={{ cursor: "pointer" }}
+              <li key={cat.id} className="category-item">
+                <div
+                  className="category-toggle"
                   onClick={() => toggleCategory(cat.id)}
                 >
-                  {cat.name}
-                  <span className="count">({cat.subcategories?.length || 0})</span>
-                </a>
+                  <span className="category-name">{cat.name}</span>
+                  <span className="category-count">({cat.subcategories?.length || 0})</span>
+                  <span className="toggle-icon">
+                    <i className={`fa ${openCategory === cat.id ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                  </span>
+                </div>
 
                 {openCategory === cat.id && (
                   <ul className="subcategory-list">
@@ -104,29 +122,27 @@ function Sidebar({ setSearchTerm }) {
                         <li key={sub.id}>
                           <Link
                             to={`/product-category/${cat.slug}/${sub.slug}`}
-                            className="clearfi" style={{ color: "green" }}
+                            className="subcategory-link"
                           >
-                            {sub.name}
-
-                            <span className="count">
+                            <span className="sub-name">{sub.name}</span>
+                            <span className="sub-count">
                               ({sub.product_count || 0})
                             </span>
                           </Link>
                         </li>
                       ))
                     ) : (
-                      <li>No subcategories</li>
+                      <li className="no-sub">No subcategories</li>
                     )}
                   </ul>
                 )}
               </li>
             ))
           ) : (
-            <li>No categories found</li>
+            <li className="no-data">No categories found</li>
           )}
         </ul>
       </div>
-
     </div>
   );
 }

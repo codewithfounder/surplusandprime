@@ -4,16 +4,20 @@ import Pagination from "../layout/Paginagion";
 import { Link } from "react-router-dom";
 import BASE_URL from "../../config/api";
 import "./style.css";
-function SubCategory({ categoryId }) {
 
+function SubCategory({ categoryId }) {
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const categoriesPerPage = 12;
 
     // Fetch API
     useEffect(() => {
+        if (!categoryId) return;
+
+        setLoading(true);
         fetch(`${BASE_URL}/product_category/view/${categoryId}`)
             .then(res => res.json())
             .then(data => {
@@ -22,8 +26,12 @@ function SubCategory({ categoryId }) {
                 } else {
                     setCategories([]);
                 }
+                setLoading(false);
             })
-            .catch(err => console.error("API Error:", err));
+            .catch(err => {
+                console.error("API Error:", err);
+                setLoading(false);
+            });
     }, [categoryId]);
 
     // Search filter
@@ -35,7 +43,6 @@ function SubCategory({ categoryId }) {
     const firstIndex = lastIndex - categoriesPerPage;
 
     const currentCategories = filteredCategories.slice(firstIndex, lastIndex);
-
     const totalPages = Math.ceil(filteredCategories.length / categoriesPerPage);
 
     return (
@@ -48,46 +55,82 @@ function SubCategory({ categoryId }) {
                         <Sidebar setSearchTerm={setSearchTerm} />
                     </div>
 
-                    {/* Products */}
+                    {/* Categories */}
                     <div className="col-md-9 products-col">
-
-                        <h3>
-                            Product Categories
-                        </h3>
-
-                        <div className="row g-4">
-
-                            {currentCategories.map((item) => (
-                                <div
-                                    className="col-12 col-md-6 col-lg-4" // Add col-12 for small screens
-                                    key={item.id}
-                                >
-                                    <Link to={`/product-category/${item.category_sluge}/${item.slug}`} className="text-decoration-none"
-                                        style={{ width: "100%" }}>
-                                        <div className="category-box h-100">
-                                            {/* ✅ Correct Image */}
-                                            <img
-                                                src={item.image_url}
-                                                className="product-img img-fluid" // Added img-fluid class for responsiveness
-                                                alt={item.Title}
-                                            />
-                                            <p className="product-title">
-                                                {item.Title}
-                                            </p>
-                                        </div>
-                                    </Link>
-                                </div>
-                            ))}
-
+                        <div className="product-header">
+                            <h3>
+                                Product <span>Categories</span>
+                            </h3>
+                            <p className="product-count">{filteredCategories.length} categories found</p>
                         </div>
 
-                        {/* Pagination */}
-                        <Pagination
-                            totalPages={totalPages}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
+                        {loading ? (
+                            <div className="loading-spinner">
+                                <div className="spinner"></div>
+                                <p>Loading categories...</p>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="row g-4">
+                                    {currentCategories.length > 0 ? (
+                                        currentCategories.map((item) => (
+                                            <div
+                                                className="col-12 col-md-6 col-lg-4"
+                                                key={item.id}
+                                            >
+                                                <Link
+                                                    to={`/product-category/${item.category_sluge}/${item.slug}`}
+                                                    className="text-decoration-none"
+                                                >
+                                                    <div className="product-card">
+                                                        <div className="product-image-wrapper">
+                                                            <img
+                                                                src={item.image_url}
+                                                                className="product-img"
+                                                                alt={item.Title}
+                                                                onError={(e) => {
+                                                                    e.target.src = "/images/default.jpg";
+                                                                }}
+                                                            />
+                                                            <div className="product-overlay">
+                                                                <span className="view-details">View Products</span>
+                                                            </div>
+                                                        </div>
 
+                                                        <div className="product-content">
+                                                            <h4 className="product-title">
+                                                                {item.Title}
+                                                            </h4>
+                                                            {item.product_count !== undefined && (
+                                                                <p className="product-count-badge">
+                                                                    {item.product_count} Products
+                                                                </p>
+                                                            )}
+                                                            <div className="product-footer">
+                                                                <span className="shop-now">Explore Category →</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="no-products">
+                                            <p>No Product categories found</p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Pagination */}
+                                {totalPages > 1 && (
+                                    <Pagination
+                                        totalPages={totalPages}
+                                        currentPage={currentPage}
+                                        setCurrentPage={setCurrentPage}
+                                    />
+                                )}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

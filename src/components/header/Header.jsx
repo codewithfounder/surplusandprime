@@ -13,7 +13,7 @@ function Header({ logo }) {
     useEffect(() => {
         const checkLogin = () => {
             const uid = localStorage.getItem("uid");
-            setLoggedIn(!!uid); // true if uid exists
+            setLoggedIn(!!uid);
         };
 
         checkLogin();
@@ -35,13 +35,11 @@ function Header({ logo }) {
             })
             .catch((err) => console.error("Category API Error:", err));
     }, []);
+
     const handleLogout = () => {
-        localStorage.removeItem("uid"); // ✅ important
-
+        localStorage.removeItem("uid");
         setLoggedIn(false);
-
         window.dispatchEvent(new Event("storage"));
-
         navigate("/login");
     };
 
@@ -50,6 +48,19 @@ function Header({ logo }) {
             ?.toLowerCase()
             .replace(/\b\w/g, (char) => char.toUpperCase());
     };
+
+    // Toggle dropdown for mobile
+    const toggleMobileDropdown = (dropdownName) => {
+        setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
+    };
+
+    // Navigation links configuration
+    const navLinks = [
+        { to: "/", label: "Home" },
+        { to: "/about", label: "About Us" },
+        { to: "/shop", label: "Shop" },
+        { to: "/contact", label: "Contact Us" },
+    ];
 
     return (
         <>
@@ -82,33 +93,28 @@ function Header({ logo }) {
                     <i className="fa fa-bars"></i>
                 </div>
 
-                {/* NAV LINKS */}
-                <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/about">About Us</Link></li>
-                    <li><Link to="/shop">Shop</Link></li>
-                    <li
-                        className="dropdown"
+                {/* NAV LINKS - Desktop */}
+                <ul className={`nav-links desktop-nav ${menuOpen ? "active" : ""}`}>
+                    {/* Regular Navigation Links - Desktop */}
+                    {navLinks.map((link) => (
+                        <li key={link.to}>
+                            <Link to={link.to}>{link.label}</Link>
+                        </li>
+                    ))}
 
-                    >
-                        <span onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveDropdown(
-                                activeDropdown === "category"
-                                    ? null
-                                    : "category"
-                            );
-                        }}>Industry ▾</span>
+                    {/* Categories Dropdown - Desktop */}
+                    <li className="dropdown">
+                        <span >Categories ▾</span>
                         <ul className={`submenu ${activeDropdown === "category" ? "show" : ""}`}>
                             {categories.length > 0 ? (
                                 categories.map((cat) => (
-                                    <li key={cat.id} className="category-item">
+                                    <li key={cat.id} className="category-items">
                                         <Link to={`/product-category/${cat.slug}`} className="category-title">
                                             {cat.name}
                                         </Link>
 
                                         {cat.subcategories?.length > 0 && (
-                                            <ul className="subcategory-list">
+                                            <ul className="subcategory-lists">
                                                 {cat.subcategories.slice(0, 3).map((sub) => (
                                                     <li key={sub.id}>
                                                         <Link
@@ -135,20 +141,13 @@ function Header({ logo }) {
                             )}
                         </ul>
                     </li>
-                    <li><Link to="/contact">Contact Us</Link></li>
-                    <li
-                        className="dropdown"
-                        onClick={() =>
-                            setActiveDropdown(activeDropdown === "more" ? null : "more")
-                        }
-                    >
-                        <span>Accounts ▾</span>
 
-                        <ul className={`submenu ${activeDropdown === "more" ? "show" : ""}`}>
-                            <li><Link to="/register">Buyer</Link></li>
-                            <li><Link to="https://surplusandprime.com/SURPLUS/admin/auth/signin">Seller</Link></li>
-
-                            {/* Example: Logout option */}
+                    {/* Accounts Dropdown - Desktop */}
+                    <li className="dropdown">
+                        <span >Accounts ▾</span>
+                        <ul className={`submenu ${activeDropdown === "more" ? "show" : ""}`} style={{ width: "fit-content", background: "#ffffff", transform: "translate(0%)" }}>
+                            <li className="acc"><Link to="/register">Buyer</Link></li>
+                            <li className="acc"><Link to="https://surplusandprime.com/SURPLUS/admin/auth/signin">Seller</Link></li>
                             {loggedIn && (
                                 <li>
                                     <span onClick={handleLogout} style={{ cursor: "pointer" }}>
@@ -159,49 +158,124 @@ function Header({ logo }) {
                         </ul>
                     </li>
 
-                    {/* Mobile Extra Links */}
-                    <li className="mobile-extra">
+                    {/* Desktop Right Actions */}
+                    <li className="desktop-actions">
                         {loggedIn ? (
                             <Link to="/dashboard">
-                                <button className="pickup-btn"><i className="fa fa-user-shield admin-icon"></i>Login</button>
+                                <button className="pickup-btn"><i className="fa fa-user-shield admin-icon"></i></button>
                             </Link>
                         ) : (
                             <Link to="/login">
-                                <button className="pickup-btn"><i className="fa fa-lock lock-icon"></i></button>
+                                <button className="pickup-btn"><i className="fa fa-lock lock-icon"></i> Login</button>
                             </Link>
                         )}
-
-                        {/* <div className="contact-box">
-                            <i className="fa fa-phone phone-icon"></i>
-                            <div>
-                                <h4 className="contact-tel">+91 9211018618</h4>
-                                <p>Need assistance?</p>
-                            </div>
-                        </div> */}
                     </li>
                 </ul>
 
-                {/* Desktop Right */}
-                <div className="nav-right desktop-only">
-                    {/* <i className="fa fa-search search-icon"></i> */}
-
-                    {loggedIn ? (
-                        <Link to="/dashboard">
-                            <button className="pickup-btn"><i className="fa fa-user-shield admin-icon"></i></button>
+                {/* NAV LINKS - Mobile */}
+                <div className={`mobile-nav ${menuOpen ? "active" : ""}`}>
+                    {/* Regular Navigation Links - Mobile */}
+                    {navLinks.map((link) => (
+                        <Link
+                            key={link.to}
+                            to={link.to}
+                            className="mobile-link"
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            {link.label}
                         </Link>
-                    ) : (
-                        <Link to="/login">
-                            <button className="pickup-btn"><i className="fa fa-lock lock-icon"></i> Login</button>
-                        </Link>
-                    )}
+                    ))}
 
-                    {/* <div className="contact-box">
-                        <i className="fa fa-phone phone-icon"></i>
-                        <div>
-                            <p style={{ margin: 0 }}>Need assistance?</p>
-                            <h4 style={{ margin: 0 }}>+91 </h4>
+                    {/* Industry Dropdown - Mobile */}
+                    <div className="mobile-dropdown">
+                        <div
+                            className="mobile-dropdown-toggle"
+                            onClick={() => toggleMobileDropdown("category-mobile")}
+                        >
+                            Categories <span className="dropdown-arrow">▾</span>
                         </div>
-                    </div> */}
+                        <div className={`mobile-submenu ${activeDropdown === "category-mobile" ? "show" : ""}`}>
+                            {categories.length > 0 ? (
+                                categories.map((cat) => (
+                                    <div key={cat.id} className="mobile-category-item">
+                                        <Link
+                                            to={`/product-category/${cat.slug}`}
+                                            className="mobile-category-title"
+                                            onClick={() => setMenuOpen(false)}
+                                        >
+                                            {cat.name}
+                                        </Link>
+
+                                        {cat.subcategories?.length > 0 && (
+                                            <div className="mobile-subcategory-list">
+                                                {cat.subcategories.slice(0, 3).map((sub) => (
+                                                    <Link
+                                                        key={sub.id}
+                                                        to={`/product-category/${cat.slug}/${sub.slug}`}
+                                                        className="mobile-subcategory-link"
+                                                        onClick={() => setMenuOpen(false)}
+                                                    >
+                                                        {toTitleCase(sub.name)}
+                                                    </Link>
+                                                ))}
+
+                                                {cat.subcategories.length > 4 && (
+                                                    <Link
+                                                        to={`/product-category/${cat.slug}`}
+                                                        className="mobile-view-all"
+                                                        onClick={() => setMenuOpen(false)}
+                                                    >
+                                                        View All →
+                                                    </Link>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="mobile-no-categories">No categories</div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Accounts Dropdown - Mobile */}
+                    <div className="mobile-dropdown">
+                        <div
+                            className="mobile-dropdown-toggle"
+                            onClick={() => toggleMobileDropdown("more-mobile")}
+                        >
+                            Accounts <span className="dropdown-arrow">▾</span>
+                        </div>
+                        <div className={`mobile-submenu ${activeDropdown === "more-mobile" ? "show" : ""}`}>
+                            <Link to="/register" className="mobile-link" onClick={() => setMenuOpen(false)}>
+                                Buyer
+                            </Link>
+                            <Link to="https://surplusandprime.com/SURPLUS/admin/auth/signin" className="mobile-link" onClick={() => setMenuOpen(false)}>
+                                Seller
+                            </Link>
+                            {loggedIn && (
+                                <span onClick={() => {
+                                    handleLogout();
+                                    setMenuOpen(false);
+                                }} className="mobile-link" style={{ cursor: "pointer" }}>
+                                    Logout
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Mobile Actions */}
+                    <div className="mobile-actions">
+                        {loggedIn ? (
+                            <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                                <button className="pickup-btn"><i className="fa fa-user-shield admin-icon"></i> Dashboard</button>
+                            </Link>
+                        ) : (
+                            <Link to="/login" onClick={() => setMenuOpen(false)}>
+                                <button className="pickup-btn"><i className="fa fa-lock lock-icon"></i> Login</button>
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
         </>

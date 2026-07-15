@@ -10,7 +10,7 @@ function About() {
     return (
         <>
             <div className="page-wrapper mb0">
-                <Navbar logo="../images/surplus.png" />
+                <Navbar logo="/images/surplus.png" />
                 <Banner title="About Us" />
                 <AboutContent />
                 <Mission />

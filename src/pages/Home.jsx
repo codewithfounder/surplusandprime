@@ -24,7 +24,7 @@ function Home() {
     return (
         <>
             <div className="page-wrapper">
-                <Navbar logo="images/surplus.png" />
+                <Navbar logo="/images/surplus.png" />
                 <MainSection />
                 <Gallery />
                 {/* <CategorySlider/> */}

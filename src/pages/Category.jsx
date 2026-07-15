@@ -12,7 +12,7 @@ function Category() {
         .join(" ");
     return (
         <>
-            <Navbar logo="../images/surplus.png" />
+            <Navbar logo="/images/surplus.png" />
             <Banner title={bannerTitle} />
             <SubCategory categoryId={category_Id} />
             <Contact_info />

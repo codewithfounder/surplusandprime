@@ -1,5 +1,5 @@
 import Home from './pages/Home';
-// import './App.css';
+import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import About from './pages/About';
 import ContactUs from './pages/ContactUs';
@@ -34,9 +34,9 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/shop" element={<Shop />} />
         {/* <Route path="/products/:categoryId" element={<Product />} /> */}
+        <Route path="/product-category/:category_Id" element={<Category />} />
         <Route path="/product-category/:categorySlug/:subcategorySlug" element={<Product />} />
         <Route path='/product/:productId' element={<ProductDetails />} />
-        <Route path="/product-category/:category_Id" element={<Category />} />
       </Routes>
 
     </>

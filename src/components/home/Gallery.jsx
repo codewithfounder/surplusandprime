@@ -21,7 +21,10 @@ const flickityOptions = {
   // better performance
   draggable: true,
   adaptiveHeight: false,
-  imagesLoaded: true
+  imagesLoaded: true,
+  // Add these for better responsiveness
+  cellAlign: 'left',
+  groupCells: true,
 };
 
 const getCategoryText = (title) => {
@@ -30,7 +33,6 @@ const getCategoryText = (title) => {
 
 export default function Gallery() {
   const [categories, setCategories] = useState([]);
-
 
   useEffect(() => {
     fetch(`${BASE_URL}/category/view`)
@@ -45,10 +47,9 @@ export default function Gallery() {
 
   return (
     <div className="category-container">
-      <div className="container"> {/* 👈 added */}
-
+      <div className="container">
         <div className="sec-title section-title text-center">
-          <h3 style={{ color: '#21aa47' }}>Our Category</h3>
+          <h2 style={{ color: '#21aa47' }}>Our Category</h2>
           <p style={{ marginTop: "5px" }}>Connecting Global Industries Through Trusted <br />Surplus Equipment Solutions</p>
         </div>
 
@@ -63,6 +64,7 @@ export default function Gallery() {
                 <img
                   src={`${item.image_url}${item.Image}`}
                   alt={item.Title}
+                  loading="lazy"
                 />
 
                 <div className="content">
@@ -76,12 +78,10 @@ export default function Gallery() {
                   </p>
                   <span className="btn">View Details</span>
                 </div>
-
               </Link>
             </div>
           ))}
         </Flickity>
-
       </div>
     </div>
   );

@@ -13,9 +13,8 @@ function ProductListing() {
 
   const productsPerPage = 12;
 
-  // ✅ Fetch products from backend
   useEffect(() => {
-    fetch(`${BASE_URL}/product/all`) // 🔁 change URL
+    fetch(`${BASE_URL}/product/all`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
@@ -24,6 +23,8 @@ function ProductListing() {
             name: item.Title,
             img: item.image_url || "/images/default.jpg",
             slug: item.slug,
+            price: item.price || null,
+            category: item.category || null,
           }));
 
           setProducts(formatted);
@@ -36,12 +37,10 @@ function ProductListing() {
       });
   }, []);
 
-  // ✅ Search filter
   const filteredProducts = products.filter((product) =>
     (product.name || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // ✅ Pagination logic
   const lastIndex = currentPage * productsPerPage;
   const firstIndex = lastIndex - productsPerPage;
 
@@ -63,13 +62,18 @@ function ProductListing() {
 
           {/* Products */}
           <div className="col-md-9 products-col">
-            <h3>
-              Latest - <span>Products</span>
-            </h3>
+            <div className="product-header">
+              <h3>
+                Latest <span>Products</span>
+              </h3>
+              <p className="product-count">{filteredProducts.length} products found</p>
+            </div>
 
-            {/* ✅ Loading */}
             {loading ? (
-              <p>Loading products...</p>
+              <div className="loading-spinner">
+                <div className="spinner"></div>
+                <p>Loading products...</p>
+              </div>
             ) : (
               <>
                 <div className="row g-4">
@@ -79,33 +83,47 @@ function ProductListing() {
                         <Link
                           to={`/product/${product.slug}`}
                           className="text-decoration-none"
-                          style={{ width: "100%" }}
                         >
-                          <div className="product-box h-100">
-                            <img
-                              src={product.img}
-                              className="product-img"
-                              alt={product.name}
-                              onError={(e) => {
-                                e.target.src = "/images/default.jpg";
-                              }}
-                            />
+                          <div className="product-card">
+                            <div className="product-image-wrapper">
+                              <img
+                                src={product.img}
+                                className="product-img"
+                                alt={product.name}
+                                onError={(e) => {
+                                  e.target.src = "/images/default.jpg";
+                                }}
+                              />
+                              {product.price && (
+                                <span className="product-badge">New</span>
+                              )}
+                              <div className="product-overlay">
+                                <span className="view-details">View Details</span>
+                              </div>
+                            </div>
 
                             <div className="product-content">
-                              <p className="product-title">
+                              <h4 className="product-title">
                                 {product.name}
-                              </p>
+                              </h4>
+                              {product.price && (
+                                <p className="product-price">${product.price}</p>
+                              )}
+                              <div className="product-footer">
+                                <span className="shop-now">Shop Now →</span>
+                              </div>
                             </div>
                           </div>
                         </Link>
                       </div>
                     ))
                   ) : (
-                    <p>No products found</p>
+                    <div className="no-products">
+                      <p>No products found</p>
+                    </div>
                   )}
                 </div>
 
-                {/* Pagination */}
                 {totalPages > 1 && (
                   <Pagination
                     totalPages={totalPages}

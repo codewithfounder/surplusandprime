@@ -6,7 +6,7 @@ import ProductListing from "../components/Product/ProductListing";
 import { useParams } from "react-router-dom";
 
 function Product() {
-    const { subcategorySlug } = useParams();
+    const { categorySlug, subcategorySlug } = useParams();
     const bannerTitle = subcategorySlug
         ?.split("-")
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
