@@ -23,6 +23,7 @@ function ProductListing() {
             name: item.Title,
             img: item.image_url || "/images/default.jpg",
             slug: item.slug,
+            sku: item.sku,
             price: item.price || null,
             category: item.category || null,
           }));
@@ -37,9 +38,20 @@ function ProductListing() {
       });
   }, []);
 
-  const filteredProducts = products.filter((product) =>
-    (product.name || "").toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Updated filter function - search by name OR SKU (exact or partial match)
+  const filteredProducts = products.filter((product) => {
+    const searchLower = searchTerm.toLowerCase().trim();
+    if (!searchLower) return true;
+
+    // Check if search term matches product name (partial match)
+    const nameMatch = (product.name || "").toLowerCase().includes(searchLower);
+
+    // Check if search term matches product SKU (partial match)
+    // Convert SKU to string and check if it includes the search term
+    const skuMatch = product.sku && product.sku.toString().toLowerCase().includes(searchLower);
+
+    return nameMatch || skuMatch;
+  });
 
   const lastIndex = currentPage * productsPerPage;
   const firstIndex = lastIndex - productsPerPage;
@@ -109,6 +121,10 @@ function ProductListing() {
                               {product.price && (
                                 <p className="product-price">${product.price}</p>
                               )}
+                              {/* Display SKU number for reference */}
+                              <p className="product-sku" style={{ fontSize: '12px', color: '#999', marginTop: '5px' }}>
+                                SKU: {product.sku}
+                              </p>
                               <div className="product-footer">
                                 <span className="shop-now">Shop Now →</span>
                               </div>
@@ -119,7 +135,7 @@ function ProductListing() {
                     ))
                   ) : (
                     <div className="no-products">
-                      <p>No products found</p>
+                      <p>No products found matching "{searchTerm}"</p>
                     </div>
                   )}
                 </div>

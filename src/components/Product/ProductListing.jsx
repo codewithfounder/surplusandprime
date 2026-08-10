@@ -5,7 +5,7 @@ import Pagination from "../layout/Paginagion";
 import { Link } from "react-router-dom";
 import BASE_URL from "../../config/api";
 
-function ProductListing({ categoryId }) {
+function ProductListing() {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
@@ -13,31 +13,45 @@ function ProductListing({ categoryId }) {
 
     const productsPerPage = 12;
 
-    // ✅ Fetch API
     useEffect(() => {
-        if (!categoryId) return;
-
-        setLoading(true);
-        fetch(`${BASE_URL}/product/view/${categoryId}`)
-            .then(res => res.json())
-            .then(data => {
+        fetch(`${BASE_URL}/product/all`)
+            .then((res) => res.json())
+            .then((data) => {
                 if (data.status) {
-                    setProducts(data.data);
-                } else {
-                    setProducts([]);
+                    const formatted = data.data.map((item) => ({
+                        id: item.id,
+                        name: item.Title,
+                        img: item.image_url || "/images/default.jpg",
+                        slug: item.slug,
+                        sku: item.sku,
+                        price: item.price || null,
+                        category: item.category || null,
+                    }));
+
+                    setProducts(formatted);
                 }
                 setLoading(false);
             })
-            .catch(err => {
+            .catch((err) => {
                 console.error("API Error:", err);
                 setLoading(false);
             });
-    }, [categoryId]);
+    }, []);
 
-    // 🔎 Search
-    const filteredProducts = products.filter((product) =>
-        product.Title?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // Updated filter function - search by name OR SKU (exact or partial match)
+    const filteredProducts = products.filter((product) => {
+        const searchLower = searchTerm.toLowerCase().trim();
+        if (!searchLower) return true;
+
+        // Check if search term matches product name (partial match)
+        const nameMatch = (product.name || "").toLowerCase().includes(searchLower);
+
+        // Check if search term matches product SKU (partial match)
+        // Convert SKU to string and check if it includes the search term
+        const skuMatch = product.sku && product.sku.toString().toLowerCase().includes(searchLower);
+
+        return nameMatch || skuMatch;
+    });
 
     const lastIndex = currentPage * productsPerPage;
     const firstIndex = lastIndex - productsPerPage;
@@ -45,9 +59,13 @@ function ProductListing({ categoryId }) {
     const currentProducts = filteredProducts.slice(firstIndex, lastIndex);
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
+    console.log(currentProducts);
     return (
         <section className="product-section py-5">
-            <div className="container" style={{ marginTop: '10rem', marginBottom: '10rem' }}>
+            <div
+                className="container"
+                style={{ marginTop: "10rem", marginBottom: "10rem" }}
+            >
                 <div className="row">
 
                     {/* Sidebar */}
@@ -59,7 +77,7 @@ function ProductListing({ categoryId }) {
                     <div className="col-md-9 products-col">
                         <div className="product-header">
                             <h3>
-                                Products <span>Collection</span>
+                                Latest <span>Products</span>
                             </h3>
                             <p className="product-count">{filteredProducts.length} products found</p>
                         </div>
@@ -74,10 +92,7 @@ function ProductListing({ categoryId }) {
                                 <div className="row g-4">
                                     {currentProducts.length > 0 ? (
                                         currentProducts.map((product) => (
-                                            <div
-                                                className="col-12 col-md-6 col-lg-4"
-                                                key={product.id}
-                                            >
+                                            <div className="col-12 col-md-6 col-lg-4" key={product.id}>
                                                 <Link
                                                     to={`/product/${product.slug}`}
                                                     className="text-decoration-none"
@@ -85,13 +100,16 @@ function ProductListing({ categoryId }) {
                                                     <div className="product-card">
                                                         <div className="product-image-wrapper">
                                                             <img
-                                                                src={product.image_url}
+                                                                src={product.img}
                                                                 className="product-img"
-                                                                alt={product.Title}
+                                                                alt={product.name}
                                                                 onError={(e) => {
                                                                     e.target.src = "/images/default.jpg";
                                                                 }}
                                                             />
+                                                            {product.price && (
+                                                                <span className="product-badge">New</span>
+                                                            )}
                                                             <div className="product-overlay">
                                                                 <span className="view-details">View Details</span>
                                                             </div>
@@ -99,8 +117,15 @@ function ProductListing({ categoryId }) {
 
                                                         <div className="product-content">
                                                             <h4 className="product-title">
-                                                                {product.Title}
+                                                                {product.name}
                                                             </h4>
+                                                            {product.price && (
+                                                                <p className="product-price">${product.price}</p>
+                                                            )}
+                                                            {/* Display SKU for reference */}
+                                                            <p className="product-sku" style={{ fontSize: '12px', color: '#999', marginTop: '5px' }}>
+                                                                SKU: {product.sku}
+                                                            </p>
                                                             <div className="product-footer">
                                                                 <span className="shop-now">Shop Now →</span>
                                                             </div>
@@ -111,12 +136,11 @@ function ProductListing({ categoryId }) {
                                         ))
                                     ) : (
                                         <div className="no-products">
-                                            <p>No products found in this category</p>
+                                            <p>No products found matching "{searchTerm}"</p>
                                         </div>
                                     )}
                                 </div>
 
-                                {/* Pagination */}
                                 {totalPages > 1 && (
                                     <Pagination
                                         totalPages={totalPages}

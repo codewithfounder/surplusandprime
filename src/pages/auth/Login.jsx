@@ -11,6 +11,7 @@ function Login() {
         password: ""
     });
     const [error, setError] = useState("");
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
     // ✅ Check if user is already logged in
     useEffect(() => {
@@ -25,6 +26,7 @@ function Login() {
                 navigate("/dashboard");
             }
         }
+        setIsCheckingAuth(false);
     }, [navigate]);
 
     // ✅ Handle input
@@ -75,6 +77,20 @@ function Login() {
             setError("Something went wrong");
         }
     };
+
+    // Show loading while checking auth
+    if (isCheckingAuth) {
+        return (
+            <div className="login-wrapper">
+                <div className="login-card">
+                    <div style={{ textAlign: "center", padding: "40px" }}>
+                        <div className="spinner"></div>
+                        <p>Checking authentication...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="login-wrapper">

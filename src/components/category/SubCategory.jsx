@@ -34,10 +34,20 @@ function SubCategory({ categoryId }) {
             });
     }, [categoryId]);
 
-    // Search filter
-    const filteredCategories = categories.filter((item) =>
-        item.Title?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // 🔎 Search by name OR SKU (exact or partial match)
+    const filteredCategories = categories.filter((item) => {
+        const searchLower = searchTerm.toLowerCase().trim();
+        if (!searchLower) return true;
+
+        // Check if search term matches category name (partial match)
+        const nameMatch = (item.Title || "").toLowerCase().includes(searchLower);
+
+        // Check if search term matches SKU (partial match)
+        // Convert SKU to string and check if it includes the search term
+        const skuMatch = item.sku && item.sku.toString().toLowerCase().includes(searchLower);
+
+        return nameMatch || skuMatch;
+    });
 
     const lastIndex = currentPage * categoriesPerPage;
     const firstIndex = lastIndex - categoriesPerPage;
@@ -79,7 +89,7 @@ function SubCategory({ categoryId }) {
                                                 key={item.id}
                                             >
                                                 <Link
-                                                    to={`/product-category/${item.category_sluge}/${item.slug}`}
+                                                    to={`/product/${item.slug}`}
                                                     className="text-decoration-none"
                                                 >
                                                     <div className="product-card">
@@ -101,6 +111,15 @@ function SubCategory({ categoryId }) {
                                                             <h4 className="product-title">
                                                                 {item.Title}
                                                             </h4>
+                                                            {/* Display SKU for reference */}
+                                                            <p className="category-sku" style={{
+                                                                fontSize: '12px',
+                                                                color: '#999',
+                                                                marginTop: '5px',
+                                                                marginBottom: '5px'
+                                                            }}>
+                                                                SKU: {item.sku || 'N/A'}
+                                                            </p>
                                                             {item.product_count !== undefined && (
                                                                 <p className="product-count-badge">
                                                                     {item.product_count} Products
@@ -116,7 +135,7 @@ function SubCategory({ categoryId }) {
                                         ))
                                     ) : (
                                         <div className="no-products">
-                                            <p>No Product categories found</p>
+                                            <p>No categories found matching "{searchTerm}"</p>
                                         </div>
                                     )}
                                 </div>

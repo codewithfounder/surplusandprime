@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function Enquiry() {
     const navigate = useNavigate();
     const { productId } = useParams();
-    
+
     const [enquiryProducts, setEnquiryProducts] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isCheckingLogin, setIsCheckingLogin] = useState(true);
@@ -15,28 +15,28 @@ function Enquiry() {
         message: "",
         quantity: 1
     });
-    
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
-    
+
     // ✅ Check login status on component mount
     useEffect(() => {
         const checkLogin = async () => {
             const uid = localStorage.getItem("uid");
-            
+
             if (!uid) {
                 // Not logged in, redirect to login with return URL
                 localStorage.setItem("redirectAfterLogin", "/enquiry" + (productId ? `/${productId}` : ""));
                 navigate("/login");
                 return;
             }
-            
+
             // Verify user with backend
             try {
                 const userId = atob(uid);
-                const response = await fetch(`http://localhost/virendra/SURPLUS/website/auth/get_user?id=${userId}`);
+                const response = await fetch(`https://surplusandprime.com/SURPLUS/website/auth/get_user?id=${userId}`);
                 const data = await response.json();
-                
+
                 if (data.status) {
                     setIsLoggedIn(true);
                     // Auto-fill form with user data
@@ -61,15 +61,15 @@ function Enquiry() {
                 setIsCheckingLogin(false);
             }
         };
-        
+
         checkLogin();
     }, [navigate, productId]);
-    
+
     // Load products from localStorage
     useEffect(() => {
         if (isLoggedIn) {
             const storedProducts = JSON.parse(localStorage.getItem("enquiryProduct")) || [];
-            
+
             // If productId is in URL, filter that specific product
             if (productId) {
                 const specificProduct = storedProducts.find(p => p.id.toString() === productId);
@@ -83,7 +83,7 @@ function Enquiry() {
             }
         }
     }, [isLoggedIn, productId]);
-    
+
     // Handle form input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -92,50 +92,50 @@ function Enquiry() {
             [name]: value
         }));
     };
-    
+
     // Remove product from enquiry list
     const removeProduct = (productIdToRemove) => {
         const updatedProducts = enquiryProducts.filter(p => p.id !== productIdToRemove);
         setEnquiryProducts(updatedProducts);
         localStorage.setItem("enquiryProduct", JSON.stringify(updatedProducts));
-        
+
         // If no products left, show message
         if (updatedProducts.length === 0) {
             setSubmitStatus(null);
         }
     };
-    
+
     // Update quantity for a product
     const updateQuantity = (productId, newQuantity) => {
         if (newQuantity < 1) return;
-        
-        const updatedProducts = enquiryProducts.map(p => 
+
+        const updatedProducts = enquiryProducts.map(p =>
             p.id === productId ? { ...p, quantity: newQuantity } : p
         );
         setEnquiryProducts(updatedProducts);
         localStorage.setItem("enquiryProduct", JSON.stringify(updatedProducts));
     };
-    
+
     // Calculate total items
     const totalItems = enquiryProducts.reduce((sum, p) => sum + (p.quantity || 1), 0);
-    
+
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (enquiryProducts.length === 0) {
             setSubmitStatus("error");
             setTimeout(() => setSubmitStatus(null), 3000);
             return;
         }
-        
+
         setIsSubmitting(true);
         setSubmitStatus(null);
-        
+
         // Get user ID from localStorage
         const uid = localStorage.getItem("uid");
         const userId = uid ? atob(uid) : null;
-        
+
         // Prepare enquiry data
         const enquiryData = {
             user_id: userId,
@@ -149,17 +149,17 @@ function Enquiry() {
             })),
             submitted_at: new Date().toISOString()
         };
-        
+
         try {
             // Send to backend API
-            const response = await fetch("http://localhost/virendra/SURPLUS/website/enquiry/submit", {
+            const response = await fetch("https://surplusandprime.com/SURPLUS/website/enquiry/submit", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(enquiryData)
             });
-            
+
             const text = await response.text();
 
             const data = JSON.parse(text);
@@ -188,12 +188,12 @@ function Enquiry() {
             setIsSubmitting(false);
         }
     };
-    
+
     // Continue shopping
     const handleContinueShopping = () => {
         navigate("/products");
     };
-    
+
     // Show loading while checking login
     if (isCheckingLogin) {
         return (
@@ -213,7 +213,7 @@ function Enquiry() {
             </section>
         );
     }
-    
+
     // If no products
     if (enquiryProducts.length === 0 && submitStatus !== "success") {
         return (
@@ -225,8 +225,8 @@ function Enquiry() {
                                 <i className="fas fa-shopping-cart" style={{ fontSize: "64px", color: "#ccc", marginBottom: "20px" }}></i>
                                 <h3>No Products in Enquiry List</h3>
                                 <p>You haven't added any products for enquiry yet.</p>
-                                <button 
-                                    className="btn btn-success" 
+                                <button
+                                    className="btn btn-success"
                                     onClick={handleContinueShopping}
                                     style={{ padding: "10px 30px", marginTop: "20px" }}
                                 >
@@ -239,7 +239,7 @@ function Enquiry() {
             </section>
         );
     }
-    
+
     return (
         <section className="enquiry-section py-5">
             <div className="container" style={{ marginTop: "8rem", marginBottom: "6rem" }}>
@@ -250,7 +250,7 @@ function Enquiry() {
                         </h2>
                     </div>
                 </div>
-                
+
                 <div className="row">
                     {/* Products List - Left Column */}
                     <div className="col-md-7">
@@ -258,13 +258,13 @@ function Enquiry() {
                             <h4 style={{ marginBottom: "20px" }}>
                                 Products ({totalItems} items)
                             </h4>
-                            
+
                             {enquiryProducts.map((product, index) => (
                                 <div key={product.id} className="enquiry-product-item">
                                     <div className="row align-items-center">
                                         <div className="col-md-3">
-                                            <img 
-                                                src={product.image_url || product.images?.[0] || "https://via.placeholder.com/300x180?text=No+Image"} 
+                                            <img
+                                                src={product.image_url || product.images?.[0] || "https://via.placeholder.com/300x180?text=No+Image"}
                                                 alt={product.Title || product.title || product.name}
                                                 style={{
                                                     width: "100%",
@@ -290,8 +290,8 @@ function Enquiry() {
                                         <div className="col-md-2">
                                             <div className="quantity-control">
                                                 <label style={{ fontSize: "14px", marginRight: "10px" }}>Qty:</label>
-                                                <input 
-                                                    type="number" 
+                                                <input
+                                                    type="number"
                                                     min="1"
                                                     value={product.quantity || 1}
                                                     onChange={(e) => updateQuantity(product.id, parseInt(e.target.value))}
@@ -305,7 +305,7 @@ function Enquiry() {
                                             </div>
                                         </div>
                                         <div className="col-md-2 text-end">
-                                            <button 
+                                            <button
                                                 className="btn btn-sm btn-danger"
                                                 onClick={() => removeProduct(product.id)}
                                                 style={{ padding: "5px 15px" }}
@@ -317,9 +317,9 @@ function Enquiry() {
                                     {index < enquiryProducts.length - 1 && <hr />}
                                 </div>
                             ))}
-                            
+
                             <div className="mt-4">
-                                <button 
+                                <button
                                     className="btn btn-outline-secondary"
                                     onClick={handleContinueShopping}
                                 >
@@ -328,26 +328,26 @@ function Enquiry() {
                             </div>
                         </div>
                     </div>
-                    
+
                     {/* Enquiry Form - Right Column */}
                     <div className="col-md-5">
                         <div className="enquiry-form">
                             <h4 style={{ marginBottom: "20px" }}>
                                 Your Information
                             </h4>
-                            
+
                             {submitStatus === "success" && (
                                 <div className="alert alert-success">
                                     <strong>Success!</strong> Your enquiry has been submitted successfully. Redirecting...
                                 </div>
                             )}
-                            
+
                             {submitStatus === "error" && (
                                 <div className="alert alert-danger">
                                     <strong>Error!</strong> Failed to submit enquiry. Please try again.
                                 </div>
                             )}
-                            
+
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
                                     <label htmlFor="name" className="form-label">
@@ -364,7 +364,7 @@ function Enquiry() {
                                         style={{ padding: "10px" }}
                                     />
                                 </div>
-                                
+
                                 <div className="mb-3">
                                     <label htmlFor="email" className="form-label">
                                         Email Address *
@@ -380,7 +380,7 @@ function Enquiry() {
                                         style={{ padding: "10px" }}
                                     />
                                 </div>
-                                
+
                                 <div className="mb-3">
                                     <label htmlFor="phone" className="form-label">
                                         Phone Number *
@@ -396,7 +396,7 @@ function Enquiry() {
                                         style={{ padding: "10px" }}
                                     />
                                 </div>
-                                
+
                                 <div className="mb-3">
                                     <label htmlFor="message" className="form-label">
                                         Message / Special Requirements
@@ -412,7 +412,7 @@ function Enquiry() {
                                         style={{ padding: "10px" }}
                                     ></textarea>
                                 </div>
-                                
+
                                 <div className="mb-3">
                                     <div className="form-check">
                                         <input
@@ -426,9 +426,9 @@ function Enquiry() {
                                         </label>
                                     </div>
                                 </div>
-                                
-                                <button 
-                                    type="submit" 
+
+                                <button
+                                    type="submit"
                                     className="btn btn-success w-100"
                                     disabled={isSubmitting}
                                     style={{ padding: "12px", fontSize: "16px" }}
@@ -440,7 +440,7 @@ function Enquiry() {
                     </div>
                 </div>
             </div>
-            
+
             {/* Styles */}
             <style jsx="true">{`
                 .enquiry-products {
