@@ -149,7 +149,7 @@ function Header({ logo }) {
                             <li className="acc"><Link to="/register">Buyer</Link></li>
                             <li className="acc"><Link to="https://surplusandprime.com/SURPLUS/admin/auth/signin">Seller</Link></li>
                             {loggedIn && (
-                                <li>
+                                <li style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "1rem", borderRadius: '1rem' }}>
                                     <span onClick={handleLogout} style={{ cursor: "pointer" }}>
                                         Logout
                                     </span>

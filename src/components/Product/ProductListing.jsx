@@ -59,7 +59,6 @@ function ProductListing() {
     const currentProducts = filteredProducts.slice(firstIndex, lastIndex);
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
-    console.log(currentProducts);
     return (
         <section className="product-section py-5">
             <div

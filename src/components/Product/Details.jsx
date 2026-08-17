@@ -222,7 +222,7 @@ function Details({ productId }) {
                             <div className="detail-box">
                                 <div className="detail-row">
                                     <span className="label">SKU Number</span>
-                                    <span className="value">{product.id}</span>
+                                    <span className="value">{product.sku}</span>
                                 </div>
 
                                 <div className="detail-row">
